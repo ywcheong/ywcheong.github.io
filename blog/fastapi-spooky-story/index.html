@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<html lang="en"><head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
+  <meta name="robots" content="index, follow" />
   <link rel="icon shortcut" href="/favicon.ico" sizes="32x32" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
@@ -12,33 +12,50 @@
 <link fetchpriority="low" href="/site.webmanifest" rel="manifest" />
 
   <title>FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode) – ywcheong/blog</title>
-  <meta name="description" content="" />
+  <meta name="description" content="FastAPI 개발 중 겪은 일FastAPI를 활용한 새 웹 프로젝트를 개발하던 중 미스터리한 일을 겪었다. (스포일러: 귀신은 없었다.) 이번 프로젝트에서는 AWS를 사용해 프로덕션을 개발할 생각이었기에, 개발 환경은 AWS EC2로 세팅을 마쳤었다. Python 프로젝트는 여러 번 해 봤지만 FastAPI를 활용하는 경우는 처음이어서 간단한 데모 코드를 가지고 원리를 이해하고 있었다.
+당시 개발 화면당시 개발 중이던 환경은 위 화면과 같았는데, Visual Studio Code에 Remote-SSH 익스텐션을 설치해서 원격으로 EC2 Instance에 접속하였었다. 사진이 작아서 잘 안 보이기는 하지만, 화면을 보면 당시 AWS EC2에 부여된 Public IP가 172.31.3.163임을 알 수 있다." />
 
   
-    <link rel="canonical" href="//localhost:1313/blog/fastapi-spooky-story/" itemprop="url" />
+    <link rel="canonical" href="/blog/fastapi-spooky-story/" itemprop="url" />
   
 
   
 
 <meta property="og:title" content="FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="FastAPI 개발 중 겪은 일
+    FastAPI를 활용한 새 웹 프로젝트를 개발하던 중 미스터리한 일을 겪었다. (스포일러: 귀신은 없었다.)
+이번 프로젝트에서는 AWS를 사용해 프로덕션을 개발할 생각이었기에, 개발 환경은 AWS EC2로 세팅을 마쳤었다.
+Python 프로젝트는 여러 번 해 봤지만 FastAPI를 활용하는 경우는 처음이어서 간단한 데모 코드를 가지고 원리를 이해하고 있었다.
+
+    
+    
+    당시 개발 화면
+  
+당시 개발 중이던 환경은 위 화면과 같았는데, Visual Studio Code에 Remote-SSH 익스텐션을 설치해서 원격으로 EC2 Instance에 접속하였었다.
+사진이 작아서 잘 안 보이기는 하지만, 화면을 보면 당시 AWS EC2에 부여된 Public IP가 172.31.3.163임을 알 수 있다." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="//localhost:1313/blog/fastapi-spooky-story/" /><meta property="article:section" content="blog" />
+<meta property="og:url" content="/blog/fastapi-spooky-story/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2024-10-04T23:17:03+09:00" />
 <meta property="article:modified_time" content="2024-10-04T23:17:03+09:00" />
 
   
   <meta itemprop="name" content="FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)">
+  <meta itemprop="description" content="FastAPI 개발 중 겪은 일FastAPI를 활용한 새 웹 프로젝트를 개발하던 중 미스터리한 일을 겪었다. (스포일러: 귀신은 없었다.) 이번 프로젝트에서는 AWS를 사용해 프로덕션을 개발할 생각이었기에, 개발 환경은 AWS EC2로 세팅을 마쳤었다. Python 프로젝트는 여러 번 해 봤지만 FastAPI를 활용하는 경우는 처음이어서 간단한 데모 코드를 가지고 원리를 이해하고 있었다.
+당시 개발 화면당시 개발 중이던 환경은 위 화면과 같았는데, Visual Studio Code에 Remote-SSH 익스텐션을 설치해서 원격으로 EC2 Instance에 접속하였었다. 사진이 작아서 잘 안 보이기는 하지만, 화면을 보면 당시 AWS EC2에 부여된 Public IP가 172.31.3.163임을 알 수 있다.">
   <meta itemprop="datePublished" content="2024-10-04T23:17:03+09:00">
   <meta itemprop="dateModified" content="2024-10-04T23:17:03+09:00">
+  <meta itemprop="wordCount" content="794">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)">
+  <meta name="twitter:description" content="FastAPI 개발 중 겪은 일FastAPI를 활용한 새 웹 프로젝트를 개발하던 중 미스터리한 일을 겪었다. (스포일러: 귀신은 없었다.) 이번 프로젝트에서는 AWS를 사용해 프로덕션을 개발할 생각이었기에, 개발 환경은 AWS EC2로 세팅을 마쳤었다. Python 프로젝트는 여러 번 해 봤지만 FastAPI를 활용하는 경우는 처음이어서 간단한 데모 코드를 가지고 원리를 이해하고 있었다.
+당시 개발 화면당시 개발 중이던 환경은 위 화면과 같았는데, Visual Studio Code에 Remote-SSH 익스텐션을 설치해서 원격으로 EC2 Instance에 접속하였었다. 사진이 작아서 잘 안 보이기는 하지만, 화면을 보면 당시 AWS EC2에 부여된 Public IP가 172.31.3.163임을 알 수 있다.">
 
-    <link href="/css/compiled/main.css" rel="stylesheet" />
+    <link rel="preload" href="/css/compiled/main.min.53c9617cf9cb82685ec5af463dec3ecab7f3b4c3ad5c9cf22185fc7cf9b39519.css" as="style" integrity="sha256-U8lhfPnLgmhexa9GPew&#43;yrfztMOtXJzyIYX8fPmzlRk=" />
+    <link href="/css/compiled/main.min.53c9617cf9cb82685ec5af463dec3ecab7f3b4c3ad5c9cf22185fc7cf9b39519.css" rel="stylesheet" integrity="sha256-U8lhfPnLgmhexa9GPew&#43;yrfztMOtXJzyIYX8fPmzlRk=" />
 
 
 
-  <link href="/css/custom.css" rel="stylesheet" />
+  <link href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" rel="stylesheet" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU=" />
 
 
 
@@ -74,7 +91,7 @@
 
   <nav class="hx-mx-auto hx-flex hx-items-center hx-justify-end hx-gap-2 hx-h-16 hx-px-6 hx-max-w-[90rem]">
     <a class="hx-flex hx-items-center hover:hx-opacity-75 ltr:hx-mr-auto rtl:hx-ml-auto" href="/">
-        <span class="hx-mx-2 hx-font-extrabold hx-inline hx-select-none" title="ywcheong/blog">ywcheong/blog</span>
+        <span class="hx-mx-2 hx-font-bold hx-inline hx-select-none" title="ywcheong/blog">ywcheong/blog</span>
     </a><a
             title="Blog"
             href="/blog"
@@ -173,6 +190,32 @@
   >FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)
     </a>
   
+    <ul class='hx-flex hx-flex-col hx-gap-1 hx-relative before:hx-absolute before:hx-inset-y-1 before:hx-w-px before:hx-bg-gray-200 before:hx-content-[""] dark:before:hx-bg-neutral-800 ltr:hx-pl-3 ltr:before:hx-left-0 rtl:hx-pr-3 rtl:before:hx-right-0 ltr:hx-ml-3 rtl:hx-mr-3'><li>
+              <a
+                href="#fastapi-%ea%b0%9c%eb%b0%9c-%ec%a4%91-%ea%b2%aa%ec%9d%80-%ec%9d%bc"
+                class="hx-flex hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [word-break:break-word] hx-cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:hx-border hx-gap-2 before:hx-opacity-25 before:hx-content-['#'] hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:hx-text-gray-900 contrast-more:dark:hx-text-gray-50 contrast-more:hx-border-transparent contrast-more:hover:hx-border-gray-900 contrast-more:dark:hover:hx-border-gray-50"
+              >FastAPI 개발 중 겪은 일</a>
+            </li>
+          <li>
+              <a
+                href="#%ea%b7%80%ec%8b%a0-%eb%93%a4%eb%a6%b0-%ec%bb%b4%ed%93%a8%ed%84%b0"
+                class="hx-flex hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [word-break:break-word] hx-cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:hx-border hx-gap-2 before:hx-opacity-25 before:hx-content-['#'] hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:hx-text-gray-900 contrast-more:dark:hx-text-gray-50 contrast-more:hx-border-transparent contrast-more:hover:hx-border-gray-900 contrast-more:dark:hover:hx-border-gray-50"
+              >귀신 들린 컴퓨터</a>
+            </li>
+          <li>
+              <a
+                href="#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%9b%90%ec%9d%b8---%ea%b0%80%ec%84%a4"
+                class="hx-flex hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [word-break:break-word] hx-cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:hx-border hx-gap-2 before:hx-opacity-25 before:hx-content-['#'] hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:hx-text-gray-900 contrast-more:dark:hx-text-gray-50 contrast-more:hx-border-transparent contrast-more:hover:hx-border-gray-900 contrast-more:dark:hover:hx-border-gray-50"
+              >문제의 원인 - 가설</a>
+            </li>
+          <li>
+              <a
+                href="#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%9b%90%ec%9d%b8---%ec%a0%95%eb%8b%b5"
+                class="hx-flex hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [word-break:break-word] hx-cursor-pointer [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] contrast-more:hx-border hx-gap-2 before:hx-opacity-25 before:hx-content-['#'] hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:hx-text-gray-900 contrast-more:dark:hx-text-gray-50 contrast-more:hx-border-transparent contrast-more:hover:hx-border-gray-900 contrast-more:dark:hover:hx-border-gray-50"
+              >문제의 원인 - 정답</a>
+            </li>
+          </ul>
+  
               
             </li></ul>
       </div></li>
@@ -182,26 +225,7 @@
     href="/project/"
     
   >Project Showcase
-        <span class="hextra-sidebar-collapsible-button"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="hx-h-[18px] hx-min-w-[18px] hx-rounded-sm hx-p-0.5 hover:hx-bg-gray-800/5 dark:hover:hx-bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="hx-origin-center hx-transition-transform rtl:-hx-rotate-180"></path></svg></span>
-    </a><div class="ltr:hx-pr-0 hx-overflow-hidden">
-        <ul class='hx-relative hx-flex hx-flex-col hx-gap-1 before:hx-absolute before:hx-inset-y-1 before:hx-w-px before:hx-bg-gray-200 before:hx-content-[""] ltr:hx-ml-3 ltr:hx-pl-3 ltr:before:hx-left-0 rtl:hx-mr-3 rtl:hx-pr-3 rtl:before:hx-right-0 dark:before:hx-bg-neutral-800'><li class="hx-flex hx-flex-col "><a
-    class="hx-flex hx-items-center hx-justify-between hx-gap-2 hx-cursor-pointer hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
-      hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 contrast-more:hx-border contrast-more:hx-border-transparent contrast-more:hx-text-gray-900 contrast-more:hover:hx-border-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:dark:hx-text-gray-50 contrast-more:dark:hover:hx-border-gray-50"
-    href="/project/infection-network-simulation/"
-    
-  >Infection Network Simulation
-    </a>
-              
-            </li><li class="hx-flex hx-flex-col "><a
-    class="hx-flex hx-items-center hx-justify-between hx-gap-2 hx-cursor-pointer hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
-      hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 contrast-more:hx-border contrast-more:hx-border-transparent contrast-more:hx-text-gray-900 contrast-more:hover:hx-border-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:dark:hx-text-gray-50 contrast-more:dark:hover:hx-border-gray-50"
-    href="/project/sofia-the-chatbot/"
-    
-  >Sofia the Chatbot
-    </a>
-              
-            </li></ul>
-      </div></li>
+    </a></li>
     </ul>
 
     <div class="max-xl:hx-hidden hx-h-0 hx-w-64 hx-shrink-0"></div></div>
@@ -219,8 +243,44 @@
 </div></div></aside>
     
 <nav class="hextra-toc hx-order-last hx-hidden hx-w-64 hx-shrink-0 xl:hx-block print:hx-hidden hx-px-4" aria-label="table of contents">
-    <div class="hextra-scrollbar hx-sticky hx-top-16 hx-overflow-y-auto hx-pr-4 hx-pt-6 hx-text-sm [hyphens:auto] hx-max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))] ltr:hx--mr-4 rtl:hx--ml-4">
-      <div class=" hx-sticky hx-bottom-0 hx-flex hx-flex-col hx-items-start hx-gap-2 hx-pb-8 dark:hx-border-neutral-800 contrast-more:hx-border-t contrast-more:hx-border-neutral-400 contrast-more:hx-shadow-none contrast-more:dark:hx-border-neutral-400">
+    <div class="hextra-scrollbar hx-sticky hx-top-16 hx-overflow-y-auto hx-pr-4 hx-pt-6 hx-text-sm [hyphens:auto] hx-max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))] ltr:hx--mr-4 rtl:hx--ml-4"><p class="hx-mb-4 hx-font-semibold hx-tracking-tight">On this page</p><ul>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="hx-font-semibold hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#fastapi-%ea%b0%9c%eb%b0%9c-%ec%a4%91-%ea%b2%aa%ec%9d%80-%ec%9d%bc">FastAPI 개발 중 겪은 일
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="hx-font-semibold hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#%ea%b7%80%ec%8b%a0-%eb%93%a4%eb%a6%b0-%ec%bb%b4%ed%93%a8%ed%84%b0">귀신 들린 컴퓨터
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="hx-font-semibold hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%9b%90%ec%9d%b8---%ea%b0%80%ec%84%a4">문제의 원인 - 가설
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-4 rtl:hx-pr-4 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#aws%ea%b0%80-%eb%ac%b8%ec%a0%9c%eb%8b%a4">AWS가 문제다?
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-4 rtl:hx-pr-4 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#ssh%ea%b0%80-%eb%ac%b8%ec%a0%9c%eb%8b%a4">SSH가 문제다?
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-4 rtl:hx-pr-4 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#fastapi%ea%b0%80-%eb%ac%b8%ec%a0%9c%eb%8b%a4">FastAPI가 문제다?
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-4 rtl:hx-pr-4 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#uvicorn%ec%9d%b4-%eb%ac%b8%ec%a0%9c%eb%8b%a4">UVicorn이 문제다?
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="ltr:hx-pl-4 rtl:hx-pr-4 hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#%eb%9c%bb%eb%b0%96%ec%9d%98-%ec%9e%a5%ec%86%8c%ec%97%90%ec%84%9c-%ec%96%bb%ec%96%b4%eb%82%b8-%ed%9e%8c%ed%8a%b8">뜻밖의 장소에서 얻어낸 힌트
+        </a>
+      </li>
+      <li class="hx-my-2 hx-scroll-my-6 hx-scroll-py-6">
+        <a class="hx-font-semibold hx-inline-block hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-300 contrast-more:hx-text-gray-900 contrast-more:hx-underline contrast-more:dark:hx-text-gray-50 hx-w-full hx-break-words" href="#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%9b%90%ec%9d%b8---%ec%a0%95%eb%8b%b5">문제의 원인 - 정답
+        </a>
+      </li></ul>
+      <div class="hx-mt-8 hx-border-t hx-bg-white hx-pt-8 hx-shadow-[0_-12px_16px_white] dark:hx-bg-dark dark:hx-shadow-[0_-12px_16px_#111] hx-sticky hx-bottom-0 hx-flex hx-flex-col hx-items-start hx-gap-2 hx-pb-8 dark:hx-border-neutral-800 contrast-more:hx-border-t contrast-more:hx-border-neutral-400 contrast-more:hx-shadow-none contrast-more:dark:hx-border-neutral-400">
         <button aria-hidden="true" id="backToTop" onClick="scrollUp();" class="hx-transition-all hx-duration-75 hx-opacity-0 hx-text-xs hx-font-medium hx-text-gray-500 hover:hx-text-gray-900 dark:hx-text-gray-400 dark:hover:hx-text-gray-100 contrast-more:hx-text-gray-800 contrast-more:dark:hx-text-gray-50">
           <span>Scroll to top</span>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="hx-inline ltr:hx-ml-1 rtl:hx-mr-1 hx-h-3.5 hx-w-3.5 hx-border hx-rounded-full hx-border-gray-500 hover:hx-border-gray-900 dark:hx-border-gray-400 dark:hover:hx-border-gray-100 contrast-more:hx-border-gray-800 contrast-more:dark:hx-border-gray-50">
@@ -244,7 +304,134 @@
         <h1 class="hx-mt-2 hx-text-4xl hx-font-bold hx-tracking-tight hx-text-slate-900 dark:hx-text-slate-100">FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)</h1>
         <div class="hx-mt-4 hx-mb-16 hx-text-gray-500 hx-text-sm hx-flex hx-items-center hx-flex-wrap hx-gap-y-2"><span class="hx-mr-1">October 4, 2024</span></div>
         <div class="content">
-          
+          <h2>FastAPI 개발 중 겪은 일<span class="hx-absolute -hx-mt-20" id="fastapi-개발-중-겪은-일"></span>
+    <a href="#fastapi-%ea%b0%9c%eb%b0%9c-%ec%a4%91-%ea%b2%aa%ec%9d%80-%ec%9d%bc" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><p>FastAPI를 활용한 <a href="../../project/easyplotlib" >새 웹 프로젝트</a>를 개발하던 중 미스터리한 일을 겪었다. (스포일러: 귀신은 없었다.)
+이번 프로젝트에서는 AWS를 사용해 프로덕션을 개발할 생각이었기에, 개발 환경은 AWS EC2로 세팅을 마쳤었다.
+Python 프로젝트는 여러 번 해 봤지만 FastAPI를 활용하는 경우는 처음이어서 간단한 <a href="https://fastapi.tiangolo.com/ko/#_5" target="_blank" rel="noopener">데모 코드</a>를 가지고 원리를 이해하고 있었다.</p>
+<p>
+    <figure>
+    <img src="../fastapi-spooky-story-1.png" title="당시 개발 화면" alt="" loading="lazy" />
+    <figcaption>당시 개발 화면</figcaption>
+  </figure></p>
+<p>당시 개발 중이던 환경은 위 화면과 같았는데, Visual Studio Code에 Remote-SSH 익스텐션을 설치해서 원격으로 EC2 Instance에 접속하였었다.
+사진이 작아서 잘 안 보이기는 하지만, 화면을 보면 당시 AWS EC2에 부여된 Public IP가 <code>172.31.3.163</code>임을 알 수 있다.</p>
+<p>FastAPI에서는 서버를 실행하기 위해 <code>fastapi dev my-file.py</code>와 같은 명령을 실행하는데, 그 결과로 아래와 같은 출력을 얻을 수 있었다.</p>
+<div class="hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code">
+  
+
+<div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> ╭────────── FastAPI CLI - Development mode ───────────╮                                                                                                                                                                                                                                                                  
+</span></span><span class="line"><span class="cl"> │                                                     │                                                                                                                                                                                                                                                                  
+</span></span><span class="line"><span class="cl"> │  Serving at: http://127.0.0.1:8000                  │                                                                                                                                                                                                                                                                  
+</span></span><span class="line"><span class="cl"> │                                                     │                                                                                                                                                                                                                                                                  
+</span></span><span class="line"><span class="cl"> │  API docs: http://127.0.0.1:8000/docs               │                                                                                                                                                                                                                                                                  
+</span></span><span class="line"><span class="cl"> │                                                     │                                                                                                                                                                                                                                                                  
+</span></span><span class="line"><span class="cl"> │  Running in development mode, <span class="k">for</span> production use:   │                                                                                                                                                                                                                                                                  
+</span></span><span class="line"><span class="cl"> │                                                     │                                                                                                                                                                                                                                                                  
+</span></span><span class="line"><span class="cl"> │  fastapi run                                        │                                                                                                                                                                                                                                                                  
+</span></span><span class="line"><span class="cl"> │                                                     │                                                                                                                                                                                                                                                                  
+</span></span><span class="line"><span class="cl"> ╰─────────────────────────────────────────────────────╯</span></span></code></pre></div></div><div class="hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0">
+  <button
+    class="hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50"
+    title="Copy code"
+  >
+    <div class="copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4"></div>
+    <div class="success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4"></div>
+  </button>
+</div>
+
+  
+</div>
+<p>여기서 주목할 점은 FastAPI 서버가 <code>http://127.0.0.1:8000</code>에 개방되었다는 정보이다.
+EC2 보안그룹 정책을 통해 당시 8000번 포트는 접속을 개방한 상태였다.</p>
+<p>
+    <figure>
+    <img src="../fastapi-spooky-story-2.png" title="AWS 보안그룹 설정, 8000번 포트가 모든 IP에 대해 개방되어 있다." alt="" loading="lazy" />
+    <figcaption>AWS 보안그룹 설정, 8000번 포트가 모든 IP에 대해 개방되어 있다.</figcaption>
+  </figure></p>
+<p>따라서 내 생각으로는 Public IP가 <code>172.31.3.163</code>이고, 8000번 포트가 개방되었으니 내 브라우저에서 <code>http://172.31.3.163:8000</code>으로 접근하면 테스트 서버에 접속할 수 있겠다는 판단이었다.</p>
+<h2>귀신 들린 컴퓨터<span class="hx-absolute -hx-mt-20" id="귀신-들린-컴퓨터"></span>
+    <a href="#%ea%b7%80%ec%8b%a0-%eb%93%a4%eb%a6%b0-%ec%bb%b4%ed%93%a8%ed%84%b0" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><p>그러나 뜻밖의 일이 일어났다. <code>http://172.31.3.163:8000</code>은 Timeout이 뜨면서 접속이 되지 않았다.
+왜 이러나 싶어서 VPC 설정이 잘못된 건지, 새 프로젝트를 시작하면서 새로 만든 서브넷의 설정이 망가진 건지, 라우팅 테이블은 멀쩡한지 다 뒤져봤다.</p>
+<p>아무리 찾아도 문제가 해결되지 않던 중, 혹시나 하는 생각에 <code>http://127.0.0.1:8000</code>로 접속을 시도해 봤더니&hellip;</p>
+<p>
+    <figure>
+    <img src="../fastapi-spooky-story-3.png" title="아무 설정도 안 했는데 내 컴퓨터에서 원격 PC에 접속이 된다???" alt="" loading="lazy" />
+    <figcaption>아무 설정도 안 했는데 내 컴퓨터에서 원격 PC에 접속이 된다???</figcaption>
+  </figure></p>
+<p>여기서부터 뭔가 이상해졌다. 내가 설정한 건 SSH지 VPN이 아니었는데, 왜 localhost에서 EC2 인스턴스랑 연결이 되는 거지?
+이때 별별 생각을 다 하면서 구글링을 했는데, 너무 연관된 주제가 많다 보니 키워드 산정부터 어려움이 있었다. 당시 상황을 종합하면</p>
+<ul>
+<li>AWS EC2랑</li>
+<li>SSH로 연결해</li>
+<li>FastAPI Dev Server를</li>
+<li>Public IP로는 접속이 안 되지만</li>
+<li>Localhost에서는 접속이 됨</li>
+</ul>
+<p>이었는데, 상황이 요모양이니 검색 키워드도 제대로 나오지 않았다. AI 검색엔진에게 물어봐도 이상한 답만 했다.</p>
+<blockquote>
+<p>나: (대충 상황 설명을 영어로)</p>
+<p>AI: (영어로) 당신이 이해를 잘못하고 있습니다. 말씀하신 상황은 불가능하고, Localhost에서 접속이 됐다는 것은 당신이 원격에서 서버를 실행 중인 것이 아님을 뜻합니다.
+실제로는 당신의 로컬 컴퓨터에서 서버가 실행 중일 것입니다.</p>
+</blockquote>
+<p>이 대답 때문에 작업 관리자도 열었는데, 결론은 AI가 헛소리를 했다는 것이었다.
+이 답변 때문에 괜히 시간만 낭비했다.</p>
+<p>이 시점에서 FastAPI 배우기는 이미 뒷전으로 밀려났고, 나는 지금 당장 이게 왜 작동하는지 알고 싶었다.
+이를 해결하고자 이 이상현상의 잠재적 원인은 AWS, SSH, FastAPI 중 한 곳에 있을 것이라는 가설을 세우고 각개격파하기로 결정했다.</p>
+<h2>문제의 원인 - 가설<span class="hx-absolute -hx-mt-20" id="문제의-원인---가설"></span>
+    <a href="#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%9b%90%ec%9d%b8---%ea%b0%80%ec%84%a4" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><h3>AWS가 문제다?<span class="hx-absolute -hx-mt-20" id="aws가-문제다"></span>
+    <a href="#aws%ea%b0%80-%eb%ac%b8%ec%a0%9c%eb%8b%a4" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>이것 때문에 AWS 설정을 처음부터 다시 다 확인했다.
+그러나 이상은 없었고, 따지고 보면 AWS가 문제일 가능성은 낮았다.
+AWS가 잘못되었다면 연결이 아예 안 되었으면 안 되었지, localhost에서 연결이 되는 건 AWS로 설명하기 힘들었다.</p>
+<h3>SSH가 문제다?<span class="hx-absolute -hx-mt-20" id="ssh가-문제다"></span>
+    <a href="#ssh%ea%b0%80-%eb%ac%b8%ec%a0%9c%eb%8b%a4" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>SSH가 문제가 있을 가능성이 높아 보였다. 어찌됐든 Remote와 Local을 잇는 거의 직접적인 bridge이기 때문이었다.
+그러나 어떻게 연결이 SSH 밖으로 &ldquo;샐&rdquo; 수 있는지는 미지수였고, 따라서 FastAPI와 연관이 있을 것이라고 생각했다.</p>
+<h3>FastAPI가 문제다?<span class="hx-absolute -hx-mt-20" id="fastapi가-문제다"></span>
+    <a href="#fastapi%ea%b0%80-%eb%ac%b8%ec%a0%9c%eb%8b%a4" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>아무래도 FastAPI 자체에 뭔가 기능이 있는 것 같았다.
+이때 내가 세운 가설은 FastAPI의 <code>fastapi dev my-file.py</code>를 실행하는 과정에서 현재 환경이 SSH인지 아닌지를 판단하여, SSH일 경우 자동으로 추가 연결을 수립하는 숨겨진 매커니즘이 있을 것이라고 생각했다.</p>
+<h3>UVicorn이 문제다?<span class="hx-absolute -hx-mt-20" id="uvicorn이-문제다"></span>
+    <a href="#uvicorn%ec%9d%b4-%eb%ac%b8%ec%a0%9c%eb%8b%a4" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>FastAPI Document를 뒤지던 중 FastAPI의 서버 구현은 <a href="https://www.uvicorn.org/" target="_blank" rel="noopener">UVicorn</a>이라는 오픈소스에 의존한다는 것을 알게 되었다.
+이떄 Uvicorn SSH와 같은 키워드로 검색을 해 보았지만, SSH 환경일 경우에만 발동하는 특별 기능이 있다는 말은 없었다.</p>
+<h3>뜻밖의 장소에서 얻어낸 힌트<span class="hx-absolute -hx-mt-20" id="뜻밖의-장소에서-얻어낸-힌트"></span>
+    <a href="#%eb%9c%bb%eb%b0%96%ec%9d%98-%ec%9e%a5%ec%86%8c%ec%97%90%ec%84%9c-%ec%96%bb%ec%96%b4%eb%82%b8-%ed%9e%8c%ed%8a%b8" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>여기까지 오도록 문제가 해결될 기미는 안 보였는데, 그러던 중 우연히 실마리를 하나 찾게 된다.
+검색 중에 Visual Studio Code가 아니라 Git Bash로 SSH에 접속해 <code>fastapi dev my-file.py</code>를 실행했더니, 더 이상 <code>localhost:8000</code>으로 웹페이지에 접속할 수 없었다.
+이상함을 느끼고 다시 Visual Studio Code로 SSH를 연결했더니 이번에는 접속이 되었다.
+이 상황을 실마리 삼아 <code>vscode ssh remote localhost</code>라고 구글에 검색해보게 되었고, 이 시점에서 문제의 원인이 명확해졌다.</p>
+<h2>문제의 원인 - 정답<span class="hx-absolute -hx-mt-20" id="문제의-원인---정답"></span>
+    <a href="#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%9b%90%ec%9d%b8---%ec%a0%95%eb%8b%b5" class="subheading-anchor" aria-label="Permalink for this section"></a></h2><p>2021년에 나와 같은 문제를 겪고 있는 사람이 작성한 <a href="https://caniro.tistory.com/292" target="_blank" rel="noopener">블로그</a>에서 정답을 알 수 있었다.
+Vscode에서 SSH로 접속할 때는 그냥 접속하지 않고 <a href="https://code.visualstudio.com/docs/remote/ssh" target="_blank" rel="noopener">Remote-SSH</a>라는 익스텐션을 사용한다.
+이 플러그인에는 Port Forwarding이라는 기능이 내장되어 있는데, 원격 서버의 Port와 로컬 머신의 Port를 바인딩해 주는 기능이다.
+사실 기본 SSH에서도 이 기능이 있는데, 가장 큰 차이점은 Remote-SSH는 자동으로 Port를 탐지해 Port forwarding을 수행해 준다.</p>
+<p><a href="https://github.com/microsoft/vscode/issues/143958" target="_blank" rel="noopener">Microsoft 개발자가 직접 남긴 구현 코멘트</a>에 따르면 해당 익스텐션은 두 가지 방법으로 자동으로 포트를 탐지한다.</p>
+<ul>
+<li>현재 실행 중인 프로세스 중, 열린 포트를 가진 프로세스를 탐지</li>
+<li>터미널 출력에서 URL + 포트 형식을 가진 출력이 있는지 탐지</li>
+</ul>
+<p>내 경우 아마 두 번째에서 탐지되지 않았을까 싶다. 실제로 이 사실을 알고 다시 Vscode를 확인해 보니 아래와 같은 탭을 발견할 수 있었다.</p>
+<p>
+    <figure>
+    <img src="../fastapi-spooky-story-4.png" title="Remote 8000번 포트가 localhost:8000로 Forward되고 있다." alt="" loading="lazy" />
+    <figcaption>Remote 8000번 포트가 localhost:8000로 Forward되고 있다.</figcaption>
+  </figure></p>
+<p>사실, 이 문제는 두 가지 문제가 결합한 문제였다. localhost에서 접속이 되는 것도 문제지만, Public IP를 통해서는 접속할 수 없었던 것을 기억하는가?
+FastAPI dev 서버에서 Public IP를 통해 접속을 허용하려면 사실은 아래와 같은 옵션을 주어야 했다.</p>
+<div class="hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code">
+  
+
+<div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">fastapi dev my-file.py --host 0.0.0.0</span></span></code></pre></div></div><div class="hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0">
+  <button
+    class="hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50"
+    title="Copy code"
+  >
+    <div class="copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4"></div>
+    <div class="success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4"></div>
+  </button>
+</div>
+
+  
+</div>
+<p>이 옵션을 주고 실행하면, (보안 설정이 문제 없다는 가정 하에) Public IP를 사용해 <code>http://172.31.3.163:8000</code>로도 접근할 수 있다.
+정작 FastAPI는 별로 공부 못 했지만, 뜻하지 않게 탐구 정신과 실험이 넘치는 하루였다. ■</p>
+
         </div>
         <div class="hx-mt-16"></div>
         
@@ -273,11 +460,11 @@
   </div>
 </footer>
     
-    <script defer src="/js/main.js" integrity=""></script>
+    <script defer src="/js/main.min.9e24080dd89849181f2fec2c0140234ef9b750fc42592e26d1ecf65314004ac1.js" integrity="sha256-niQIDdiYSRgfL&#43;wsAUAjTvm3UPxCWS4m0ez2UxQASsE="></script>
 
 
 <script defer src="/lib/flexsearch/flexsearch.bundle.min.0425860527cc9968f9f049421c7a56b39327d475e2e3a8f550416be3a9134327.js" integrity="sha256-BCWGBSfMmWj58ElCHHpWs5Mn1HXi46j1UEFr46kTQyc="></script>
-    <script defer src="/en.search.js" integrity=""></script>
+    <script defer src="/en.search.min.18edc3dacda49f9ff66879637eae0614ef99b3e165d30d5ec6817b4dc7b32c93.js" integrity="sha256-GO3D2s2kn5/2aHljfq4GFO&#43;Zs&#43;Fl0w1exoF7TcezLJM="></script>
 
 
   </body>
