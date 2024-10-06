@@ -5,7 +5,7 @@
     <description>Recent content on ywcheong/blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 04 Oct 2024 23:17:03 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 06 Oct 2024 22:43:58 +0900</lastBuildDate>
     
 	  <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,6 +13,241 @@
       
       
     
+    
+    <item>
+      <title>ACE에 대한 간단한 이야기 &#43; Pydantic을 왜 이제서야 배울까</title>
+      <link>/blog/ace-and-pydantic/</link>
+      <pubDate>Sun, 06 Oct 2024 22:43:58 +0900</pubDate>
+      
+      <guid>/blog/ace-and-pydantic/</guid>
+      <description>
+        
+        
+        &lt;h2&gt;Easyplotlib 구조 만들기&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;easyplotlib-구조-만들기&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#easyplotlib-%ea%b5%ac%ec%a1%b0-%eb%a7%8c%eb%93%a4%ea%b8%b0&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;../../project/easyplotlib&#34; &gt;Easyplotlib&lt;/a&gt;을 개발하면서 제일 먼저 시작했던 부분은 Frontend와 Backend 사이의 통신 양식을 정하는 것이었다. 이 프로젝트를 간단히 설명하면 (인공지능은 아니지만) 사용자를 대신해 사용자의 요구대로 자동으로 코드를 생성해 주고, 이를 실행한 뒤 그 결과를 보여주는 게 주 기능이다. 코드를 동적으로 생성한 뒤 실행한다는 특성상 잘못된 방식으로 구조를 설계할 경우 &lt;a href=&#34;https://www.okta.com/identity-101/arbitrary-code-execution/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ACE (Arbitrary Code Execution; 임의 코드 실행)&lt;/a&gt; 취약점이 발생할 우려가 컸기에, 상당히 신경써서 만들어야겠다는 생각이었다.&lt;/p&gt;
+&lt;h2&gt;임의 코드 실행 취약점&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;임의-코드-실행-취약점&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#%ec%9e%84%ec%9d%98-%ec%bd%94%eb%93%9c-%ec%8b%a4%ed%96%89-%ec%b7%a8%ec%95%bd%ec%a0%90&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;브라우저상에서 직접 코드를 생성해서 서버로 보낸 뒤 실행하는 방법은 너무 간단하지만, 보안에 대해 조금이라도 알고 있다면 절대적으로 피해야 할 개발 방법이라는 것을 알 수 있다. 서버에서 기대한 코드는 &lt;code&gt;matplotlib.pyplot.plot()&lt;/code&gt; 같은 순한 함수였겠지만 실제로는 이런 코드가 날아올 수 있기 때문이다.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
+  
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;subprocess&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;subprocess&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;rm&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;-rf&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;--no-preserve-root&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+  
+&lt;/div&gt;
+&lt;h3&gt;Python 2의 input()은 위험하다&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;python-2의-input은-위험하다&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#python-2%ec%9d%98-input%ec%9d%80-%ec%9c%84%ed%97%98%ed%95%98%eb%8b%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Python 2의 예시를 들자면, 사용자의 터미널 입력을 받는 함수는 &lt;code&gt;raw_input()&lt;/code&gt;과 &lt;code&gt;input()&lt;/code&gt;으로 두 가지가 있었다. &lt;code&gt;raw_input()&lt;/code&gt;은 Python 3의 &lt;code&gt;input()&lt;/code&gt;과 같이 항상 str 타입을 반환하지만 &lt;code&gt;input()&lt;/code&gt;은 가능한 경우 자동으로 캐스팅을 해 주는 차이가 있어서 초보 시절에 자주 애용했던 기억이 난다.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
+  
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Python 2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;raw_input&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# 입력&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;3&amp;#39;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 출력&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;input&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# 입력&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# 출력&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+  
+&lt;/div&gt;
+&lt;p&gt;그런데 사실 충격적인 점은 &lt;a href=&#34;https://python.readthedocs.io/en/v2.7.2/library/functions.html#input&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Python 2의 input() 구현&lt;/a&gt;은 &lt;code&gt;eval(raw_input())&lt;/code&gt;이었다! 이로부터 야기되는 보안 이슈도 어마어마했을 것이다.&lt;/p&gt;
+&lt;p&gt;ACE의 다른 예시를 들자면 C나 C++와 같이 메모리 영역에 직접 접근 가능한 언어에서 발생하는 버퍼 오버플로를 활용한 공격도 크게 보면 ACE 취약점의 일부로 볼 수 있겠다. 정상적인 방법으로는 실행되지 않는 사용자 입력 영역을 실행시킨다는 개념은 같기 때문이다.&lt;/p&gt;
+&lt;p&gt;물론 위의 ACE 취약점을 예방하는 방법은 여러 가지가 있다. Python에서 파일 및 네트워킹 기능을 제거한 채 컴파일한 커스텀 언어를 사용할 수도 있꼬고, AWS를 활용해 가상화 레이어를 추가하거나, 특정 함수의 동작을 패턴 매칭이나 &lt;a href=&#34;https://github.com/zopefoundation/RestrictedPython&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;RestrictedPython&lt;/a&gt; 같은 외부 패키지로 제한할 수도 있다. 하지만 가장 좋은 것은 &lt;a href=&#34;https://www.acmicpc.net/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;백준&lt;/a&gt;과 같은 온라인 저지처럼 ACE가 반드시 필요한 경우가 아니라면 이를 처음부터 예방하는 것이다.&lt;/p&gt;
+&lt;h2&gt;Easyplotlib request 설계&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;easyplotlib-request-설계&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#easyplotlib-request-%ec%84%a4%ea%b3%84&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;사실 Easyplotlib은 저런 이상한 설계를 애초부터 고려할 생각이 없었다. 데이터를 구조화할 수 있기 때문이다. 다만 문제가 있었다면 구조화된 데이터가 너무 복잡해 이를 검증할 코드를 처음부터 짜기가 상당히 피곤했다.&lt;/p&gt;
+&lt;p&gt;아래 카드를 클릭하면 데이터의 &amp;lsquo;대충 버전&amp;rsquo; 정의를 볼 수 있다. 다만 아래 버전은 최신화되지 않으며 &lt;a href=&#34;https://github.com/ywcheong/easyplotlib/blob/main/docs/interface.md&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;이 링크&lt;/a&gt;에서 최신 커밋의 &amp;lsquo;대충 버전&amp;rsquo;을 볼 수 있다.&lt;/p&gt;
+&lt;details class=&#34;last-of-type:hx-mb-0 hx-rounded-lg hx-bg-neutral-50 dark:hx-bg-neutral-800 hx-p-2 hx-mt-4 hx-group&#34; &gt;
+  &lt;summary class=&#34;hx-flex hx-items-center hx-cursor-pointer hx-select-none hx-list-none hx-p-1 hx-rounded hx-transition-colors hover:hx-bg-gray-100 dark:hover:hx-bg-neutral-800 before:hx-mr-1 before:hx-inline-block before:hx-transition-transform before:hx-content-[&#39;&#39;] dark:before:hx-invert rtl:before:hx-rotate-180 group-open:before:hx-rotate-90&#34;&gt;
+    &lt;strong class=&#34;hx-text-lg&#34;&gt;&lt;strong&gt;구조화된 데이터 보기 (JSON)&lt;/strong&gt;&lt;/strong&gt;
+  &lt;/summary&gt;
+  &lt;div class=&#34;hx-p-2 hx-overflow-hidden&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;request_id : &lt;em&gt;Is uuid4&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;figure
+&lt;ul&gt;
+&lt;li&gt;size
+&lt;ul&gt;
+&lt;li&gt;row : &lt;em&gt;Is numeric, plt.subplot(row, _)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;column : &lt;em&gt;Is numeric, plt.subplot(_, column)&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;axes [List] : &lt;em&gt;length of &lt;code&gt;figure.size.row&lt;/code&gt;&lt;/em&gt;
+&lt;ul&gt;
+&lt;li&gt;[List] : &lt;em&gt;length of &lt;code&gt;figure.size.column&lt;/code&gt;&lt;/em&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Is one of &lt;code&gt;axes[].name&lt;/code&gt; or null. Null axes will not be rendered, as it never exists&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;style
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Every possible key-value pairs are defined at &lt;strong&gt;figure-style&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;axes [List]
+&lt;ul&gt;
+&lt;li&gt;name : &lt;em&gt;Is string&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;plot [List]
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Is one of &lt;code&gt;plot[].name&lt;/code&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;style
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Every possible key-value pairs are defined at &lt;strong&gt;axes-style&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;plot [List]
+&lt;ul&gt;
+&lt;li&gt;name : &lt;em&gt;Is string&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;format : &lt;em&gt;Every possible values are defined at &lt;strong&gt;plot-format-list&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;data
+&lt;ul&gt;
+&lt;li&gt;key: &lt;em&gt;Depending on &lt;code&gt;plot[].format&lt;/code&gt;, there are different required and optional keys. Check &lt;strong&gt;plot-format-list&lt;/strong&gt;.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;value: &lt;em&gt;Is one of &lt;code&gt;data[].name&lt;/code&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;style
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Every possible key-value pairs are defined at &lt;strong&gt;plot-style&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;data [List]
+&lt;ul&gt;
+&lt;li&gt;name : &lt;em&gt;Is string&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;value [List]
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Is numeric&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/details&gt;
+&lt;p&gt;이 긴 JSON을 하나하나 검증하는 것은 정신이 나갈 것 같았고, 곧 FastAPI 개발 도중 데이터를 깔끔하게 받을 수 있다는 이유로 사용을 추천한다고 어디선가 읽은 Pydantic 패키지에 대해 조사해보게 되었다.&lt;/p&gt;
+&lt;h2&gt;Pydantic 진작 쓸걸&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;pydantic-진작-쓸걸&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#pydantic-%ec%a7%84%ec%9e%91-%ec%93%b8%ea%b1%b8&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://docs.pydantic.dev/latest/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pydantic&lt;/a&gt;은 여러 기능이 있지만 데이터 검증 기능을 메인으로 내세우는 패키지이다. 기능 설명을 하면 너무 복잡해지지만, 아래와 같은 상황을 생각해 보자.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
+  
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;    &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;               &lt;span class=&#34;c1&#34;&gt;# 이름&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;age&lt;/span&gt;     &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;               &lt;span class=&#34;c1&#34;&gt;# 나이&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;spouce&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# 배우자&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;friends&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;# 친구&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+  
+&lt;/div&gt;
+&lt;p&gt;Python에서는 Type hint를 통해 Linter의 작동을 보조할 수는 있지만 그것이 실제 데이터의 타입 일치를 보증해 주지는 않는다. 극단적으로는 위 코드에서는 다음 코드도 실제 에러를 일으키기 전까지는 (예: &lt;code&gt;User(spouce=None).spouce.name&lt;/code&gt;) 어떠한 검증도 &amp;lsquo;직접&amp;rsquo; 진행하지 않으면 오류가 숨게 된다. Pydantic의 유스케이스를 몇 개 나열하자면&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;타입 강제
+&lt;ul&gt;
+&lt;li&gt;특정 데이터가 Type Hint를 따르도록 강제할 수 있음&lt;/li&gt;
+&lt;li&gt;Type을 따르지는 않지만 캐스팅이 가능한 경우 (예: &lt;code&gt;&#39;23&#39; -&amp;gt; 23&lt;/code&gt;) 자동 캐스팅을 허용할 수 있음&lt;/li&gt;
+&lt;li&gt;자동 캐스팅을 비활성화하거나 캐스팅이 불가한 경우 &lt;code&gt;ValidationError&lt;/code&gt;를 발생&lt;/li&gt;
+&lt;li&gt;명시되지 않은 entry를 오류발생/무시/별도처리 등 조건지정 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;복잡한 유효성 검사
+&lt;ul&gt;
+&lt;li&gt;Type만을 검사하는 것이 아닌, 복잡한 조건을 argument만으로 쉽게 부여할 수 있음
+&lt;ul&gt;
+&lt;li&gt;정수의 경우 최대-최소, 문자열의 경우 길이 조건 및 정규식 등 설정 가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;지나치게 복잡한 조건의 경우 검사함수를 직접 작성할 수 있음&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;모델 유효성 검사
+&lt;ul&gt;
+&lt;li&gt;각 entry만 검사하는 것이 아닌, 여러 entry 간의 상호관계를 기반으로 모델 유효성도 검사할 수 있음 (커스텀 함수)
+&lt;ul&gt;
+&lt;li&gt;예를 들어 &lt;code&gt;if(self.spouce) assert(self.spouce.name != self.name)&lt;/code&gt;과 같은 복잡한 조건도 함수로 설정가능&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;클래스-JSON 상호변환 지원
+&lt;ul&gt;
+&lt;li&gt;클래스 인스턴스를 JSON으로, 또는 그 반대로 변환 가능&lt;/li&gt;
+&lt;li&gt;클래스 인스턴스 선언을 비롯한 모든 과정에서 별도의 함수호출 없이 자동으로 위의 유효성 검사가 수행됨&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;사실상 User Input Sanitization이 필요한 모든 곳에 사용할 수 있다. 이걸 진작 배웠으면 지금까지 한 프로젝트에서 이 고생은 안 해도 됐었을 것 같아서 안타까웠다.&lt;/p&gt;
+&lt;h2&gt;Logfire도 배우고 싶은데&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;logfire도-배우고-싶은데&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#logfire%eb%8f%84-%eb%b0%b0%ec%9a%b0%ea%b3%a0-%ec%8b%b6%ec%9d%80%eb%8d%b0&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Pydantic 공식 사이트에 Logfire라고 Pydantic과 호환되는 로깅 툴이 있다. 이것도 배우고 싶은 마음은 드는 까닭이, 과거 내가 작성했던 프로젝트의 코드를 보면 그런 생각이 들 수밖에 없다.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
+  
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 구 프로젝트 코드 (일부 변경됨)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;putLog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;action&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;action&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;29}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;8}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; |&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;get_current_time_ISO&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;elif&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;29}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;8}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | action = &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;20}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;get_current_time_ISO&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;action&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;29}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;8}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | action = &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;20}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | data = &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;get_current_time_ISO&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;action&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;putLog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;SystemComponentA&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;auto-sync&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;[sync-ratio = &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:.3f}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;]&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;theory_max&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+  
+&lt;/div&gt;
+&lt;p&gt;이렇게 누더기 같은 코드로 로깅을 했는데, 사실 모든 줄에 &lt;code&gt;print&lt;/code&gt;를 하면서 테스팅하는거랑 별반 다르지않은 주먹구구식이다.&lt;/p&gt;
+&lt;h2&gt;개발자 마인드셋&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;개발자-마인드셋&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#%ea%b0%9c%eb%b0%9c%ec%9e%90-%eb%a7%88%ec%9d%b8%eb%93%9c%ec%85%8b&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;사실 지금까지 Pydantic을 안 배운 이유는 간단하다. 지금까지 Pydantic을 필요로 할 만큼 복잡한 데이터 Validation 로직이 필요 없었기 때문이다. 항상 하는 생각이지만 비즈니스 로직이 복잡해지면 주먹구구식에는 한계가 생기고, 이로 인해 새로운 기술을 배워야 하는 시점이 오는 것 같다. 그리고 새 기술을 배우고 나면 &amp;lsquo;이걸 진작 배울걸 왜 이제서야 활용할까&amp;rsquo;와 같은 생각이 든다.&lt;/p&gt;
+&lt;p&gt;하지만 결국 필요를 느껴야 배우게 되는 것 같다. 그리고 그 필요를 가장 빠르게 느낄 수 있는 곳은 결국 프로젝트 아닐까. 단일 책임 원칙도, 테스팅도, 커버리지도, AWS도, Python도, Websocket도, Agile도, OS도 결국 필요하니까 배울 수밖에 없었다. 귀납적으로 생각하면 Logfire도 필요를 느낀 미래의 내가 배우지 않을까, 아마도? ■&lt;/p&gt;
+
+      </description>
+    </item>
     
     <item>
       <title>FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)</title>

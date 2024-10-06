@@ -27,8 +27,8 @@
 
   
   <meta itemprop="name" content="Blog">
-  <meta itemprop="datePublished" content="2024-10-04T23:17:03+09:00">
-  <meta itemprop="dateModified" content="2024-10-04T23:17:03+09:00">
+  <meta itemprop="datePublished" content="2024-10-06T22:43:58+09:00">
+  <meta itemprop="dateModified" content="2024-10-06T22:43:58+09:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Blog">
 
@@ -167,6 +167,14 @@
         <ul class='hx-relative hx-flex hx-flex-col hx-gap-1 before:hx-absolute before:hx-inset-y-1 before:hx-w-px before:hx-bg-gray-200 before:hx-content-[""] ltr:hx-ml-3 ltr:hx-pl-3 ltr:before:hx-left-0 rtl:hx-mr-3 rtl:hx-pr-3 rtl:before:hx-right-0 dark:before:hx-bg-neutral-800'><li class="hx-flex hx-flex-col "><a
     class="hx-flex hx-items-center hx-justify-between hx-gap-2 hx-cursor-pointer hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
       hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 contrast-more:hx-border contrast-more:hx-border-transparent contrast-more:hx-text-gray-900 contrast-more:hover:hx-border-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:dark:hx-text-gray-50 contrast-more:dark:hover:hx-border-gray-50"
+    href="/blog/ace-and-pydantic/"
+    
+  >ACE에 대한 간단한 이야기 &#43; Pydantic을 왜 이제서야 배울까
+    </a>
+              
+            </li><li class="hx-flex hx-flex-col "><a
+    class="hx-flex hx-items-center hx-justify-between hx-gap-2 hx-cursor-pointer hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 contrast-more:hx-border contrast-more:hx-border-transparent contrast-more:hx-text-gray-900 contrast-more:hover:hx-border-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:dark:hx-text-gray-50 contrast-more:dark:hover:hx-border-gray-50"
     href="/blog/fastapi-spooky-story/"
     
   >FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)
@@ -201,6 +209,15 @@
         <br class="hx-mt-1.5 hx-text-sm" />
         <h1 class="hx-text-center hx-mt-2 hx-text-4xl hx-font-bold hx-tracking-tight hx-text-slate-900 dark:hx-text-slate-100">Blog</h1>
         <div class="content"></div>
+          <div class="hx-mb-10">
+            <h3><a style="color: inherit; text-decoration: none;" class="hx-block hx-font-semibold hx-mt-8 hx-text-2xl " href="/blog/ace-and-pydantic/">ACE에 대한 간단한 이야기 &#43; Pydantic을 왜 이제서야 배울까</a></h3><p class="hx-opacity-80 hx-mt-4 hx-leading-7">Easyplotlib 구조 만들기Easyplotlib을 개발하면서 제일 먼저 시작했던 부분은 Frontend와 Backend 사이의 통신 양식을 정하는 것이었다. 이 프로젝트를 간단히 설명하면 (인공지능은 아니지만) 사용자를 대신해 사용자의 요구대로 자동으로 코드를 생성해 주고, 이를 실행한 뒤 그 결과를 보여주는 게 주 기능이다. 코드를 동적으로 생성한 뒤 실행한다는 특성상 잘못된 방식으로 구조를 설계할 경우 ACE (Arbitrary Code Execution; 임의 코드 실행) 취약점이 발생할 우려가 컸기에, 상당히 신경써서 만들어야겠다는 생각이었다.
+임의 코드 실행 취약점브라우저상에서 직접 코드를 생성해서 서버로 보낸 뒤 실행하는 방법은 너무 간단하지만, 보안에 대해 조금이라도 알고 있다면 절대적으로 피해야 할 개발 방법이라는 것을 알 수 있다. 서버에서 기대한 코드는 matplotlib.pyplot.plot() 같은 순한 함수였겠지만 실제로는 이런 코드가 날아올 수 있기 때문이다.</p>
+            <p class="hx-opacity-80 hx-mt-1 hx-leading-7">
+              <a class="hx-text-[color:hsl(var(--primary-hue),100%,50%)] hx-underline hx-underline-offset-2 hx-decoration-from-font" href="/blog/ace-and-pydantic/">Read more →</a>
+            </p>
+            <p class="hx-opacity-50 hx-text-sm hx-mt-4 hx-leading-7">October 6, 2024</p>
+          </div>
+        
           <div class="hx-mb-10">
             <h3><a style="color: inherit; text-decoration: none;" class="hx-block hx-font-semibold hx-mt-8 hx-text-2xl " href="/blog/fastapi-spooky-story/">FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)</a></h3><p class="hx-opacity-80 hx-mt-4 hx-leading-7">FastAPI 개발 중 겪은 일FastAPI를 활용한 새 웹 프로젝트를 개발하던 중 미스터리한 일을 겪었다. (스포일러: 귀신은 없었다.) 이번 프로젝트에서는 AWS를 사용해 프로덕션을 개발할 생각이었기에, 개발 환경은 AWS EC2로 세팅을 마쳤었다. Python 프로젝트는 여러 번 해 봤지만 FastAPI를 활용하는 경우는 처음이어서 간단한 데모 코드를 가지고 원리를 이해하고 있었다.
 당시 개발 화면당시 개발 중이던 환경은 위 화면과 같았는데, Visual Studio Code에 Remote-SSH 익스텐션을 설치해서 원격으로 EC2 Instance에 접속하였었다. 사진이 작아서 잘 안 보이기는 하지만, 화면을 보면 당시 AWS EC2에 부여된 Public IP가 172.31.3.163임을 알 수 있다.</p>
