@@ -1,33 +1,94 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
   <url>
-    <loc>/post/</loc>
+    <loc>https://blog.ywcheong.com/post/</loc>
+    
     <lastmod>2024-10-31T20:19:49+09:00</lastmod>
-  </url><url>
-    <loc>/post/python-recursion-bug/</loc>
-    <lastmod>2024-10-31T20:19:49+09:00</lastmod>
-  </url><url>
-    <loc>/</loc>
-    <lastmod>2024-10-31T20:19:49+09:00</lastmod>
-  </url><url>
-    <loc>/post/ace-and-pydantic/</loc>
-    <lastmod>2024-10-06T22:43:58+09:00</lastmod>
-  </url><url>
-    <loc>/post/fastapi-spooky-story/</loc>
-    <lastmod>2024-10-04T23:17:03+09:00</lastmod>
-  </url><url>
-    <loc>/project/</loc>
-    <lastmod>2024-10-04T22:34:34+09:00</lastmod>
-  </url><url>
-    <loc>/categories/</loc>
-  </url><url>
-    <loc>/project/easyplotlib/</loc>
-  </url><url>
-    <loc>/project/infection-network-simulation/</loc>
-  </url><url>
-    <loc>/project/sofia-the-chatbot/</loc>
-  </url><url>
-    <loc>/tags/</loc>
+    
+    
+    
   </url>
+  
+  <url>
+    <loc>https://blog.ywcheong.com/post/python-recursion-bug/</loc>
+    
+    <lastmod>2024-10-31T20:19:49+09:00</lastmod>
+    
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.ywcheong.com/</loc>
+    
+    <lastmod>2024-10-31T20:19:49+09:00</lastmod>
+    
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.ywcheong.com/post/ace-and-pydantic/</loc>
+    
+    <lastmod>2024-10-06T22:43:58+09:00</lastmod>
+    
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.ywcheong.com/post/fastapi-spooky-story/</loc>
+    
+    <lastmod>2024-10-04T23:17:03+09:00</lastmod>
+    
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.ywcheong.com/project/</loc>
+    
+    <lastmod>2024-10-04T22:34:34+09:00</lastmod>
+    
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.ywcheong.com/categories/</loc>
+    
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.ywcheong.com/project/easyplotlib/</loc>
+    
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.ywcheong.com/project/infection-network-simulation/</loc>
+    
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.ywcheong.com/project/sofia-the-chatbot/</loc>
+    
+    
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.ywcheong.com/tags/</loc>
+    
+    
+    
+  </url>
+  
 </urlset>
