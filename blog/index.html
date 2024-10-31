@@ -167,6 +167,14 @@
         <ul class='hx-relative hx-flex hx-flex-col hx-gap-1 before:hx-absolute before:hx-inset-y-1 before:hx-w-px before:hx-bg-gray-200 before:hx-content-[""] ltr:hx-ml-3 ltr:hx-pl-3 ltr:before:hx-left-0 rtl:hx-mr-3 rtl:hx-pr-3 rtl:before:hx-right-0 dark:before:hx-bg-neutral-800'><li class="hx-flex hx-flex-col "><a
     class="hx-flex hx-items-center hx-justify-between hx-gap-2 hx-cursor-pointer hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
       hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 contrast-more:hx-border contrast-more:hx-border-transparent contrast-more:hx-text-gray-900 contrast-more:hover:hx-border-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:dark:hx-text-gray-50 contrast-more:dark:hover:hx-border-gray-50"
+    href="/blog/python-recursion-bug/"
+    
+  >sys.setrecursionlimit(10**6)은 만능 해결사가 아니다
+    </a>
+              
+            </li><li class="hx-flex hx-flex-col "><a
+    class="hx-flex hx-items-center hx-justify-between hx-gap-2 hx-cursor-pointer hx-rounded hx-px-2 hx-py-1.5 hx-text-sm hx-transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      hx-text-gray-500 hover:hx-bg-gray-100 hover:hx-text-gray-900 contrast-more:hx-border contrast-more:hx-border-transparent contrast-more:hx-text-gray-900 contrast-more:hover:hx-border-gray-900 dark:hx-text-neutral-400 dark:hover:hx-bg-primary-100/5 dark:hover:hx-text-gray-50 contrast-more:dark:hx-text-gray-50 contrast-more:dark:hover:hx-border-gray-50"
     href="/blog/ace-and-pydantic/"
     
   >ACE에 대한 간단한 이야기 &#43; Pydantic을 왜 이제서야 배울까
@@ -236,6 +244,15 @@
         <br class="hx-mt-1.5 hx-text-sm" />
         <h1 class="hx-text-center hx-mt-2 hx-text-4xl hx-font-bold hx-tracking-tight hx-text-slate-900 dark:hx-text-slate-100">Blog</h1>
         <div class="content"></div>
+          <div class="hx-mb-10">
+            <h3><a style="color: inherit; text-decoration: none;" class="hx-block hx-font-semibold hx-mt-8 hx-text-2xl " href="/blog/python-recursion-bug/">sys.setrecursionlimit(10**6)은 만능 해결사가 아니다</a></h3><p class="hx-opacity-80 hx-mt-4 hx-leading-7">결론부터 말하자면…알고리즘 문제풀이에 Python을 사용할 경우 sys.setrecursionlimit의 기본 한계인 1000을 초과하는 로직이 있을 경우 재귀함수가 아닌 일반함수로 구조를 바꾸거나, 또는 C, C&#43;&#43;로의 변경을 고려하는 것이 좋다. 그렇지 않을 경우 Windows에서 탐지가 불가능한 치명적인 버그가 발생할 위험이 있다.
+문제의 시작일의 시작은 백준 11049(행렬 곱셈 순서) 문제를 풀던 때였다. 해당 문제는 전형적인 메모이제이션을 활용한 동적 계획법 문제로, 재귀함수로 푸는 것이 그 구조상 깔끔하여 재귀함수를 통해 문제를 해결하고자 하였다.</p>
+            <p class="hx-opacity-80 hx-mt-1 hx-leading-7">
+              <a class="hx-text-[color:hsl(var(--primary-hue),100%,50%)] hx-underline hx-underline-offset-2 hx-decoration-from-font" href="/blog/python-recursion-bug/">Read more →</a>
+            </p>
+            <p class="hx-opacity-50 hx-text-sm hx-mt-4 hx-leading-7">October 31, 2024</p>
+          </div>
+        
           <div class="hx-mb-10">
             <h3><a style="color: inherit; text-decoration: none;" class="hx-block hx-font-semibold hx-mt-8 hx-text-2xl " href="/blog/ace-and-pydantic/">ACE에 대한 간단한 이야기 &#43; Pydantic을 왜 이제서야 배울까</a></h3><p class="hx-opacity-80 hx-mt-4 hx-leading-7">Easyplotlib 구조 만들기Easyplotlib을 개발하면서 제일 먼저 시작했던 부분은 Frontend와 Backend 사이의 통신 양식을 정하는 것이었다. 이 프로젝트를 간단히 설명하면 (인공지능은 아니지만) 사용자를 대신해 사용자의 요구대로 자동으로 코드를 생성해 주고, 이를 실행한 뒤 그 결과를 보여주는 게 주 기능이다. 코드를 동적으로 생성한 뒤 실행한다는 특성상 잘못된 방식으로 구조를 설계할 경우 ACE (Arbitrary Code Execution; 임의 코드 실행) 취약점이 발생할 우려가 컸기에, 상당히 신경써서 만들어야겠다는 생각이었다.
 임의 코드 실행 취약점브라우저상에서 직접 코드를 생성해서 서버로 보낸 뒤 실행하는 방법은 너무 간단하지만, 보안에 대해 조금이라도 알고 있다면 절대적으로 피해야 할 개발 방법이라는 것을 알 수 있다. 서버에서 기대한 코드는 matplotlib.pyplot.plot() 같은 순한 함수였겠지만 실제로는 이런 코드가 날아올 수 있기 때문이다.</p>
