@@ -16,10 +16,10 @@
     
     <item>
       <title>sys.setrecursionlimit(10**6)은 만능 해결사가 아니다</title>
-      <link>/blog/python-recursion-bug/</link>
+      <link>/post/python-recursion-bug/</link>
       <pubDate>Thu, 31 Oct 2024 20:19:49 +0900</pubDate>
       
-      <guid>/blog/python-recursion-bug/</guid>
+      <guid>/post/python-recursion-bug/</guid>
       <description>
         
         
@@ -158,10 +158,10 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
     
     <item>
       <title>ACE에 대한 간단한 이야기 &#43; Pydantic을 왜 이제서야 배울까</title>
-      <link>/blog/ace-and-pydantic/</link>
+      <link>/post/ace-and-pydantic/</link>
       <pubDate>Sun, 06 Oct 2024 22:43:58 +0900</pubDate>
       
-      <guid>/blog/ace-and-pydantic/</guid>
+      <guid>/post/ace-and-pydantic/</guid>
       <description>
         
         
@@ -393,10 +393,10 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
     
     <item>
       <title>FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)</title>
-      <link>/blog/fastapi-spooky-story/</link>
+      <link>/post/fastapi-spooky-story/</link>
       <pubDate>Fri, 04 Oct 2024 23:17:03 +0900</pubDate>
       
-      <guid>/blog/fastapi-spooky-story/</guid>
+      <guid>/post/fastapi-spooky-story/</guid>
       <description>
         
         
