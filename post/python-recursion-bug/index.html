@@ -39,7 +39,7 @@
 문제의 시작일의 시작은 백준 11049(행렬 곱셈 순서) 문제를 풀던 때였다. 해당 문제는 전형적인 메모이제이션을 활용한 동적 계획법 문제로, 재귀함수로 푸는 것이 그 구조상 깔끔하여 재귀함수를 통해 문제를 해결하고자 하였다.">
   <meta itemprop="datePublished" content="2024-10-31T20:19:49+09:00">
   <meta itemprop="dateModified" content="2024-10-31T20:19:49+09:00">
-  <meta itemprop="wordCount" content="657">
+  <meta itemprop="wordCount" content="730">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="sys.setrecursionlimit(10**6)은 만능 해결사가 아니다">
   <meta name="twitter:description" content="결론부터 말하자면…알고리즘 문제풀이에 Python을 사용할 경우 sys.setrecursionlimit의 기본 한계인 1000을 초과하는 로직이 있을 경우 재귀함수가 아닌 일반함수로 구조를 바꾸거나, 또는 C, C&#43;&#43;로의 변경을 고려하는 것이 좋다. 그렇지 않을 경우 Windows에서 탐지가 불가능한 치명적인 버그가 발생할 위험이 있다.
@@ -338,10 +338,25 @@ Python에서 시간제한이 빡빡하게 설정되어 있던 문제라 시간 �
 따라서 프로그램의 어느 부분이 느린지 분석하고자 커다란 테스트케이스를 만들어서 입력으로 넣어보았다.</p>
 <p>원래의 문제를 간단히 설명하면 n개의 행렬을 곱하는 가장 효율적인 문제였는데, 이때 n이 500 이하였다.
 이때 문득 n이 더 크면 어떨지 궁금해져서 테스트케이스를 n = 5000짜리로 생성해서 집어넣게 되었다.</p>
-<p><figure>
-    <img src="/python-recursion-bug-1.png" title="matrix_size = 5000이다." alt="alt text" loading="lazy" />
-    <figcaption>matrix_size = 5000이다.</figcaption>
-  </figure></p>
+<div class="hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code">
+  
+
+<div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">matrix_count</span> <span class="o">=</span> <span class="mi">5000</span>
+</span></span><span class="line"><span class="cl"><span class="n">matrix</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5002</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">memo</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">solve</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="c1"># 이 함수는 재귀 깊이가 5000까지 커진다</span></span></span></code></pre></div></div><div class="hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0">
+  <button
+    class="hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50"
+    title="Copy code"
+  >
+    <div class="copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4"></div>
+    <div class="success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4"></div>
+  </button>
+</div>
+
+  
+</div>
 <p>그랬더니 놀랍게도 프로그램은 <strong>즉시</strong> 실행을 종료했고, 어떠한 출력도 내뱉지 않았다.</p>
 <p><figure>
     <img src="/python-recursion-bug-2.png" title="당시 상황 재연. 프로그램의 출력이 없다. 화면에는 나타나지 않았지만 " alt="alt text" loading="lazy" />
@@ -385,9 +400,8 @@ Windows에서는 프로그램이 스택 사이즈를 초과하면 프로세스�
 엄밀히 말하자면 <a href="https://learn.microsoft.com/ko-kr/windows/win32/memory/creating-guard-pages" target="_blank" rel="noopener">Guard Page</a> 영역을 생성하는 등 방어는 가능하지만, 깊은 재귀함수를 사용하지 않는 일반적인 Python 프로그램에서
 발생하는 오버헤드 등을 고려할 때 도입하지 않은 것으로 보인다.</p>
 <h3>Linux에서는 일어나지 않는 버그<span class="hx-absolute -hx-mt-20" id="linux에서는-일어나지-않는-버그"></span>
-    <a href="#linux%ec%97%90%ec%84%9c%eb%8a%94-%ec%9d%bc%ec%96%b4%eb%82%98%ec%a7%80-%ec%95%8a%eb%8a%94-%eb%b2%84%ea%b7%b8" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p>
-    <figure>
-    <img src="../image.png" title="Windows에서 작동하지 않는 이 코드는, Linux에서는 0.01초 이내로 실행된다. 사진은 Amazon EC2 Linux 환경." alt="alt text" loading="lazy" />
+    <a href="#linux%ec%97%90%ec%84%9c%eb%8a%94-%ec%9d%bc%ec%96%b4%eb%82%98%ec%a7%80-%ec%95%8a%eb%8a%94-%eb%b2%84%ea%b7%b8" class="subheading-anchor" aria-label="Permalink for this section"></a></h3><p><figure>
+    <img src="/python-recursion-bug-3.png" title="Windows에서 작동하지 않는 이 코드는, Linux에서는 0.01초 이내로 실행된다. 사진은 Amazon EC2 Linux 환경." alt="alt text" loading="lazy" />
     <figcaption>Windows에서 작동하지 않는 이 코드는, Linux에서는 0.01초 이내로 실행된다. 사진은 Amazon EC2 Linux 환경.</figcaption>
   </figure></p>
 <p>Linux에서는 이 버그가 나타나지 않는다.
@@ -454,7 +468,9 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
 </ul>
 </li>
 </ul>
-<p>괜히 C, C++가 근본 언어가 아니다.</p>
+<p>물론 코딩 테스트를 응시하는 도중 재귀의 깊이가 2,000 정도까지 커질 필요가 있어 임시로 해제하는 경우에는 <code>sys.setrecursionlimit</code>이 필요한 해결책일 수도 있다.
+그러나 코딩 테스트처럼 특수한 환경이 아닌, 프로덕션 환경에서 해당 코드를 사용하는 것은 치명적인 취약점을 내포할 수도 있다는 것을 반드시 인지해야 한다.
+재귀 깊이를 임의로 변경하는 행위의 위험성을 인지하고 사용하는 것과 그렇지 않은 것은 큰 차이를 만들 수 있기 때문이다. ■</p>
 
         </div>
         <div class="hx-mt-16"></div>
