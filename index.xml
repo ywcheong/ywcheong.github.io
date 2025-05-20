@@ -1,13 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ywcheong/blog – ywcheong/blog</title>
-    <link>https://blog.ywcheong.com/</link>
-    <description>Recent content on ywcheong/blog</description>
+    <title>ywcheong::blog – ywcheong::blog</title>
+    <link>/</link>
+    <description>Recent content on ywcheong::blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Sat, 02 Nov 2024 22:36:17 +0900</lastBuildDate>
+    <language>ko</language>
     
-	  <atom:link href="https://blog.ywcheong.com/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -16,17 +15,17 @@
     
     <item>
       <title>sys.setrecursionlimit(10**6)은 만능 해결사가 아니다</title>
-      <link>https://blog.ywcheong.com/post/python-recursion-bug/</link>
+      <link>/python-recursion-bug/</link>
       <pubDate>Thu, 31 Oct 2024 20:19:49 +0900</pubDate>
       
-      <guid>https://blog.ywcheong.com/post/python-recursion-bug/</guid>
+      <guid>/python-recursion-bug/</guid>
       <description>
         
         
-        &lt;h2&gt;결론부터 말하자면&amp;hellip;&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;결론부터-말하자면&#34;&gt;&lt;/span&gt;
+        &lt;h2&gt;결론부터 말하자면&amp;hellip;&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;결론부터-말하자면&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#%ea%b2%b0%eb%a1%a0%eb%b6%80%ed%84%b0-%eb%a7%90%ed%95%98%ec%9e%90%eb%a9%b4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;알고리즘 문제풀이에 Python을 사용할 경우 &lt;a href=&#34;https://docs.python.org/3.13/library/sys.html#sys.setrecursionlimit&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;sys.setrecursionlimit&lt;/a&gt;의 기본 한계인 1000을 초과하는 로직이 있을 경우
 재귀함수가 아닌 일반함수로 구조를 바꾸거나, 또는 C, C++로의 변경을 고려하는 것이 좋다. 그렇지 않을 경우 &lt;strong&gt;Windows에서 탐지가 불가능한 치명적인 버그가 발생할 위험이 있다.&lt;/strong&gt;&lt;/p&gt;
-&lt;h2&gt;문제의 시작&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;문제의-시작&#34;&gt;&lt;/span&gt;
+&lt;h2&gt;문제의 시작&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;문제의-시작&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%8b%9c%ec%9e%91&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;일의 시작은 &lt;a href=&#34;https://www.acmicpc.net/problem/11049&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;백준 11049(행렬 곱셈 순서)&lt;/a&gt; 문제를 풀던 때였다.
 해당 문제는 전형적인 메모이제이션을 활용한 동적 계획법 문제로, 재귀함수로 푸는 것이 그 구조상 깔끔하여 재귀함수를 통해 문제를 해결하고자 하였다.&lt;/p&gt;
 &lt;p&gt;알고리즘 문제는 C, C++를 활용해 푸는 것이 좋지만 Python으로 진행한 프로젝트도 많았고 평소에도 자주 쓰는 언어였기에 별 생각 없이 풀었는데,
@@ -35,38 +34,22 @@ Python에서 시간제한이 빡빡하게 설정되어 있던 문제라 시간 �
 따라서 프로그램의 어느 부분이 느린지 분석하고자 커다란 테스트케이스를 만들어서 입력으로 넣어보았다.&lt;/p&gt;
 &lt;p&gt;원래의 문제를 간단히 설명하면 n개의 행렬을 곱하는 가장 효율적인 문제였는데, 이때 n이 500 이하였다.
 이때 문득 n이 더 크면 어떨지 궁금해져서 테스트케이스를 n = 5000짜리로 생성해서 집어넣게 되었다.&lt;/p&gt;
-&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
-  
-
-&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;matrix_count&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5000&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;matrix&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;range&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5002&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;memo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;dict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;solve&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;matrix&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 이 함수는 재귀 깊이가 5000까지 커진다&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
-  &lt;button
-    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
-    title=&#34;Copy code&#34;
-  &gt;
-    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
-    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
-  &lt;/button&gt;
-&lt;/div&gt;
-
-  
-&lt;/div&gt;
-&lt;p&gt;그랬더니 놀랍게도 프로그램은 &lt;strong&gt;즉시&lt;/strong&gt; 실행을 종료했고, 어떠한 출력도 내뱉지 않았다.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;https://blog.ywcheong.com/python-recursion-bug-2.png&#34; title=&#34;당시 상황 재연. 프로그램의 출력이 없다. 화면에는 나타나지 않았지만 &#34; alt=&#34;alt text&#34; loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;/python-recursion-bug-1.png&#34; title=&#34;matrix_size = 5000이다.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;matrix_size = 5000이다.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;그랬더니 놀랍게도 프로그램은 즉시 실행을 종료했고, 어떠한 출력도 내뱉지 않았다.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/python-recursion-bug-2.png&#34; title=&#34;당시 상황 재연. 프로그램의 출력이 없다. 화면에는 나타나지 않았지만 &#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;당시 상황 재연. 프로그램의 출력이 없다. 화면에는 나타나지 않았지만 &lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;Python에서 PS를 하다 보면 흔한 오류인 RecursionError도 아니었다.
 오류나 다른 특이 메시지도 없었기 때문이었다.
 무엇보다도 n이 적당히 작으면(예: n = 500) 이런 문제 없이 정상적으로 프로그램이 실행되었다.&lt;/p&gt;
 &lt;p&gt;문제를 해결하려 여러 번 검색했지만 생각보다 국내외 웹에서 관련 원인에 대해 정리된 자료를 찾기 힘들어서 직접 정리하였다.&lt;/p&gt;
-&lt;h2&gt;문제의 재현 방법&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;문제의-재현-방법&#34;&gt;&lt;/span&gt;
+&lt;h2&gt;문제의 재현 방법&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;문제의-재현-방법&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%9e%ac%ed%98%84-%eb%b0%a9%eb%b2%95&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;사실 위 문제는 아주 간단한 Python 코드로 쉽게 재현할 수 있다.&lt;/p&gt;
-&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
-  
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
 
 &lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sys&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;sys&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;setrecursionlimit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10000010&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
@@ -78,17 +61,15 @@ Python에서 시간제한이 빡빡하게 설정되어 있던 문제라 시간 �
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Program Start&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;recursion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10000000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Program End&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Program End&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
   &lt;button
-    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
-    title=&#34;Copy code&#34;
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;코드 복사&#34;
   &gt;
-    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
-    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
   &lt;/button&gt;
 &lt;/div&gt;
-
-  
 &lt;/div&gt;
 &lt;p&gt;위 코드를 &lt;strong&gt;Windows 환경&lt;/strong&gt;의 터미널에서 &lt;code&gt;python3 script.py&lt;/code&gt;와 같이 실행하면 &amp;ldquo;Program Start&amp;rdquo; 이후로 아무 출력 없이 명령이 종료되고, Python REPL에서 실행시키면 REPL 자체가 죽어 버린다.
 이는 &lt;a href=&#34;https://bugs.python.org/issue45645&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Python Bugtracker Issue#45645&lt;/a&gt;에도 이미 보고되어 있다.&lt;/p&gt;
@@ -96,9 +77,10 @@ Python에서 시간제한이 빡빡하게 설정되어 있던 문제라 시간 �
 Windows에서는 프로그램이 스택 사이즈를 초과하면 프로세스를 즉시 종료하므로 해당 버그는 &amp;ldquo;수정 없을 것(Won&amp;rsquo;t Fix)&amp;ldquo;이라는 태그로 종결되었다.
 엄밀히 말하자면 &lt;a href=&#34;https://learn.microsoft.com/ko-kr/windows/win32/memory/creating-guard-pages&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Guard Page&lt;/a&gt; 영역을 생성하는 등 방어는 가능하지만, 깊은 재귀함수를 사용하지 않는 일반적인 Python 프로그램에서
 발생하는 오버헤드 등을 고려할 때 도입하지 않은 것으로 보인다.&lt;/p&gt;
-&lt;h3&gt;Linux에서는 일어나지 않는 버그&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;linux에서는-일어나지-않는-버그&#34;&gt;&lt;/span&gt;
-    &lt;a href=&#34;#linux%ec%97%90%ec%84%9c%eb%8a%94-%ec%9d%bc%ec%96%b4%eb%82%98%ec%a7%80-%ec%95%8a%eb%8a%94-%eb%b2%84%ea%b7%b8&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;https://blog.ywcheong.com/python-recursion-bug-3.png&#34; title=&#34;Windows에서 작동하지 않는 이 코드는, Linux에서는 0.01초 이내로 실행된다. 사진은 Amazon EC2 Linux 환경.&#34; alt=&#34;alt text&#34; loading=&#34;lazy&#34; /&gt;
+&lt;h3&gt;Linux에서는 일어나지 않는 버그&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;linux에서는-일어나지-않는-버그&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#linux%ec%97%90%ec%84%9c%eb%8a%94-%ec%9d%bc%ec%96%b4%eb%82%98%ec%a7%80-%ec%95%8a%eb%8a%94-%eb%b2%84%ea%b7%b8&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;
+    &lt;figure&gt;
+    &lt;img src=&#34;../image.png&#34; title=&#34;Windows에서 작동하지 않는 이 코드는, Linux에서는 0.01초 이내로 실행된다. 사진은 Amazon EC2 Linux 환경.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;Windows에서 작동하지 않는 이 코드는, Linux에서는 0.01초 이내로 실행된다. 사진은 Amazon EC2 Linux 환경.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;Linux에서는 이 버그가 나타나지 않는다.
@@ -107,34 +89,12 @@ Windows에서는 프로그램이 스택 사이즈를 초과하면 프로세스�
 그 이유는 resource 모듈은 linux의 &lt;code&gt;setrlimit&lt;/code&gt;이라는 시스템 콜을 사용하기 때문이지만, Windows에서는 프로그램 실행 중에 동적으로 스택 크기를 제어하는 기능을 제공하지 않기 때문이다.
 Windows에서 스택 영역을 굳이 런타임에 추가로 사용하고 싶다면, 새로운 쓰레드를 생성해 해당 스택 영역을 활용하는 등 간접적인 방법 외에는 존재하지 않는다.
 또한 Windows에서는 기본 스택의 크기가 Linux에 비해 작은 편이다.&lt;/p&gt;
+&lt;div class=&#34;hx:overflow-x-auto hx:mt-6 hx:flex hx:rounded-lg hx:border hx:py-2 hx:ltr:pr-4 hx:rtl:pl-4 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-yellow-100 hx:bg-yellow-50 hx:text-yellow-900 hx:dark:border-yellow-200/30 hx:dark:bg-yellow-700/30 hx:dark:text-yellow-200&#34;&gt;
+  &lt;div class=&#34;hx:ltr:pl-3 hx:ltr:pr-2 hx:rtl:pr-3 hx:rtl:pl-2&#34;&gt;&lt;div class=&#34;hx:select-none hx:text-xl&#34; style=&#34;font-family: &#39;Apple Color Emoji&#39;, &#39;Segoe UI Emoji&#39;, &#39;Segoe UI Symbol&#39;;&#34;&gt;⚠️&lt;/div&gt;&lt;/div&gt;
 
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-&lt;div class=&#34;hx-overflow-x-auto hx-mt-6 hx-flex hx-rounded-lg hx-border hx-py-2 ltr:hx-pr-4 rtl:hx-pl-4 contrast-more:hx-border-current contrast-more:dark:hx-border-current hx-border-yellow-100 hx-bg-yellow-50 hx-text-yellow-900 dark:hx-border-yellow-200/30 dark:hx-bg-yellow-700/30 dark:hx-text-yellow-200&#34;&gt;
-  &lt;div class=&#34;ltr:hx-pl-3 ltr:hx-pr-2 rtl:hx-pr-3 rtl:hx-pl-2&#34;&gt;&lt;div class=&#34;hx-select-none hx-text-xl&#34; style=&#34;font-family: &#39;Apple Color Emoji&#39;, &#39;Segoe UI Emoji&#39;, &#39;Segoe UI Symbol&#39;;&#34;&gt;
-        ⚠️
-      &lt;/div&gt;&lt;/div&gt;
-
-  &lt;div class=&#34;hx-w-full hx-min-w-0 hx-leading-7&#34;&gt;
-    &lt;div class=&#34;hx-mt-6 hx-leading-7 first:hx-mt-0&#34;&gt;
-      Linux와 Windows 간의 기본 스택 크기는 컴파일 옵션이나 Linux의 &lt;code&gt;ulimit -s stack_size&lt;/code&gt; 명령 등으로 그 대소관계가 쉽게 바뀔 수 있다는 점을 유의해야 한다.
-그러나 Windows가 런타임에서 직접적인 방법으로 동적으로 스택 크기를 변화시킬 수 없다는 것은 여전히 유효하기에 상황이 크게 바뀌지는 않는다.
-    &lt;/div&gt;
+  &lt;div class=&#34;hx:w-full hx:min-w-0 hx:leading-7&#34;&gt;
+    &lt;div class=&#34;hx:mt-6 hx:leading-7 hx:first:mt-0&#34;&gt;Linux와 Windows 간의 기본 스택 크기는 컴파일 옵션이나 Linux의 &lt;code&gt;ulimit -s stack_size&lt;/code&gt; 명령 등으로 그 대소관계가 쉽게 바뀔 수 있다는 점을 유의해야 한다.
+그러나 Windows가 런타임에서 직접적인 방법으로 동적으로 스택 크기를 변화시킬 수 없다는 것은 여전히 유효하기에 상황이 크게 바뀌지는 않는다.&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
@@ -144,7 +104,7 @@ Windows에서 스택 영역을 굳이 런타임에 추가로 사용하고 싶다
 &lt;li&gt;(항상 그렇다고는 할 수 없지만) 기본 스택 크기도 큰 편임&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;이라는 요인이 맞물려져 이러한 차이가 발생한 것으로 보인다.&lt;/p&gt;
-&lt;h2&gt;그래서 어떻게 해야 하는데?&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;그래서-어떻게-해야-하는데&#34;&gt;&lt;/span&gt;
+&lt;h2&gt;그래서 어떻게 해야 하는데?&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;그래서-어떻게-해야-하는데&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#%ea%b7%b8%eb%9e%98%ec%84%9c-%ec%96%b4%eb%96%bb%ea%b2%8c-%ed%95%b4%ec%95%bc-%ed%95%98%eb%8a%94%eb%8d%b0&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;근본적인 문제 해결을 위해서는 재귀 함수를 사용하지 않는 것이 좋다.
 하지만 PS를 하다 보면 재귀함수가 훨씬 직관적으로 해답을 생성한다는 것도 사실이다.&lt;/p&gt;
 &lt;p&gt;사실 많은 경우 C, C++ 등의 언어로 PS를 하기 때문에 이런 문제를 겪지 않는다.
@@ -154,57 +114,51 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
 &lt;ul&gt;
 &lt;li&gt;C, C++을 쓴다면..
 &lt;ul&gt;
-&lt;li&gt;꼬리 재귀 최적화를 활용해 재귀함수를 마음껏 쓴다&lt;/li&gt;
+&lt;li&gt;꼬리 재귀 최적화를 활용해 재귀함수를 주의하여 활용한다.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;Python 또는 다른 언어를 쓴다면&amp;hellip;
 &lt;ul&gt;
-&lt;li&gt;Recursion Depth가 작을 때만 (&amp;lt; 1,000) 재귀함수를 사용한다&lt;/li&gt;
-&lt;li&gt;가급적이면 Recursion을 사용하지 않는다 (오버헤드가 상당함)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sys.setrecursionlimit&lt;/code&gt; 등으로 임의로 재귀깊이 제한을 해제하는 것은 매우 주의한다&lt;/li&gt;
+&lt;li&gt;Recursion Depth가 작을 때만 (&amp;lt; 1,000) 재귀함수를 사용한다.&lt;/li&gt;
+&lt;li&gt;그럼에도 재귀의 오버헤드는 무시할 수 없기에, 가급적이면 재귀를 사용하지 않는다.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sys.setrecursionlimit&lt;/code&gt; 등으로 임의로 재귀깊이 제한을 해제하는 것은 매우 주의한다.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;물론 코딩 테스트를 응시하는 도중 재귀의 깊이가 2,000 정도까지 커질 필요가 있어 임시로 해제하는 경우에는 &lt;code&gt;sys.setrecursionlimit&lt;/code&gt;이 필요한 해결책일 수도 있다.
-그러나 코딩 테스트처럼 특수한 환경이 아닌, 프로덕션 환경에서 해당 코드를 사용하는 것은 치명적인 취약점을 내포할 수도 있다는 것을 반드시 인지해야 한다.
-재귀 깊이를 임의로 변경하는 행위의 위험성을 인지하고 사용하는 것과 그렇지 않은 것은 큰 차이를 만들 수 있기 때문이다. ■&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(2025.05.20. 업데이트)&lt;/strong&gt; 사실 재귀함수는 굳이 성능 문제가 아니더라도 실무에서 사용하는 데는 어느 정도의 위험성을 감수해야 한다는 사실을 추가로 알게 되었다. &lt;a href=&#34;https://www.iso.org/standard/68383.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ISO 26262&lt;/a&gt; 등 미션 크리티컬 시스템을 위한 산업 표준에서는 재귀호출을 명시적으로 금지하는 경우가 많은데, 이는 코드의 정적분석을 어렵게 하고 재귀깊이를 통제하기 어려운 경우가 많기 때문이다. 물론 코딩 테스트 문제를 풀면서 이러한 사항을 모두 고려하는 것은 지나친 오버엔지니어링으로 볼 수도 있으나, 재귀호출에 따르는 비용을 명시적으로 이해하는 것도 중요하다는 점을 다시 한 번 강조하고 싶다.&lt;/p&gt;
 
       </description>
     </item>
     
     <item>
-      <title>ACE에 대한 간단한 이야기 &#43; Pydantic을 왜 이제서야 배울까</title>
-      <link>https://blog.ywcheong.com/post/ace-and-pydantic/</link>
+      <title>Python 2에서 input()은 eval(raw_input())이다</title>
+      <link>/python2-input-eval/</link>
       <pubDate>Sun, 06 Oct 2024 22:43:58 +0900</pubDate>
       
-      <guid>https://blog.ywcheong.com/post/ace-and-pydantic/</guid>
+      <guid>/python2-input-eval/</guid>
       <description>
         
         
-        &lt;h2&gt;Easyplotlib 구조 만들기&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;easyplotlib-구조-만들기&#34;&gt;&lt;/span&gt;
+        &lt;h2&gt;Easyplotlib 구조 만들기&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;easyplotlib-구조-만들기&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#easyplotlib-%ea%b5%ac%ec%a1%b0-%eb%a7%8c%eb%93%a4%ea%b8%b0&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;../../project/easyplotlib&#34; &gt;Easyplotlib&lt;/a&gt;을 개발하면서 제일 먼저 시작했던 부분은 Frontend와 Backend 사이의 통신 양식을 정하는 것이었다. 이 프로젝트를 간단히 설명하면 (인공지능은 아니지만) 사용자를 대신해 사용자의 요구대로 자동으로 코드를 생성해 주고, 이를 실행한 뒤 그 결과를 보여주는 게 주 기능이다. 코드를 동적으로 생성한 뒤 실행한다는 특성상 잘못된 방식으로 구조를 설계할 경우 &lt;a href=&#34;https://www.okta.com/identity-101/arbitrary-code-execution/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ACE (Arbitrary Code Execution; 임의 코드 실행)&lt;/a&gt; 취약점이 발생할 우려가 컸기에, 상당히 신경써서 만들어야겠다는 생각이었다.&lt;/p&gt;
-&lt;h2&gt;임의 코드 실행 취약점&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;임의-코드-실행-취약점&#34;&gt;&lt;/span&gt;
+&lt;h2&gt;임의 코드 실행 취약점&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;임의-코드-실행-취약점&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#%ec%9e%84%ec%9d%98-%ec%bd%94%eb%93%9c-%ec%8b%a4%ed%96%89-%ec%b7%a8%ec%95%bd%ec%a0%90&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;브라우저상에서 직접 코드를 생성해서 서버로 보낸 뒤 실행하는 방법은 너무 간단하지만, 보안에 대해 조금이라도 알고 있다면 절대적으로 피해야 할 개발 방법이라는 것을 알 수 있다. 서버에서 기대한 코드는 &lt;code&gt;matplotlib.pyplot.plot()&lt;/code&gt; 같은 순한 함수였겠지만 실제로는 이런 코드가 날아올 수 있기 때문이다.&lt;/p&gt;
-&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
-  
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
 
 &lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;subprocess&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;subprocess&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;rm&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;-rf&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;--no-preserve-root&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;subprocess&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;rm&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;-rf&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;--no-preserve-root&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
   &lt;button
-    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
-    title=&#34;Copy code&#34;
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;코드 복사&#34;
   &gt;
-    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
-    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
   &lt;/button&gt;
 &lt;/div&gt;
-
-  
 &lt;/div&gt;
-&lt;h3&gt;Python 2의 input()은 위험하다&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;python-2의-input은-위험하다&#34;&gt;&lt;/span&gt;
-    &lt;a href=&#34;#python-2%ec%9d%98-input%ec%9d%80-%ec%9c%84%ed%97%98%ed%95%98%eb%8b%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Python 2의 예시를 들자면, 사용자의 터미널 입력을 받는 함수는 &lt;code&gt;raw_input()&lt;/code&gt;과 &lt;code&gt;input()&lt;/code&gt;으로 두 가지가 있었다. &lt;code&gt;raw_input()&lt;/code&gt;은 Python 3의 &lt;code&gt;input()&lt;/code&gt;과 같이 항상 str 타입을 반환하지만 &lt;code&gt;input()&lt;/code&gt;은 가능한 경우 자동으로 캐스팅을 해 주는 차이가 있어서 초보 시절에 자주 애용했던 기억이 난다.&lt;/p&gt;
-&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
-  
+&lt;h3&gt;Python 2의 input()은 위험하다&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;python-2의-input은-위험하다&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#python-2%ec%9d%98-input%ec%9d%80-%ec%9c%84%ed%97%98%ed%95%98%eb%8b%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Python 2의 예시를 들자면, 사용자의 터미널 입력을 받는 함수는 &lt;code&gt;raw_input()&lt;/code&gt;과 &lt;code&gt;input()&lt;/code&gt;으로 두 가지가 있었다. &lt;code&gt;raw_input()&lt;/code&gt;은 Python 3의 &lt;code&gt;input()&lt;/code&gt;과 같이 항상 str 타입을 반환하지만 &lt;code&gt;input()&lt;/code&gt;은 가능한 경우 자동으로 캐스팅을 해 주는 차이가 있어서 처음 Python을 배웠을 때 자주 애용했던 기억이 난다.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
 
 &lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Python 2&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;raw_input&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
@@ -212,29 +166,27 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;3&amp;#39;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 출력&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;input&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# 입력&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# 출력&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# 출력&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
   &lt;button
-    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
-    title=&#34;Copy code&#34;
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;코드 복사&#34;
   &gt;
-    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
-    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
   &lt;/button&gt;
 &lt;/div&gt;
-
-  
 &lt;/div&gt;
-&lt;p&gt;그런데 사실 충격적인 점은 &lt;a href=&#34;https://python.readthedocs.io/en/v2.7.2/library/functions.html#input&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Python 2의 input() 구현&lt;/a&gt;은 &lt;code&gt;eval(raw_input())&lt;/code&gt;이었다! 이로부터 야기되는 보안 이슈도 어마어마했을 것이다.&lt;/p&gt;
+&lt;p&gt;그런데 사실 충격적인 점은 &lt;a href=&#34;https://python.readthedocs.io/en/v2.7.2/library/functions.html#input&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Python 2의 input() 구현&lt;/a&gt;은 &lt;code&gt;eval(raw_input())&lt;/code&gt;이었다! 이로부터 야기되는 보안 이슈도 짐작이 가지 않을 정도로 거대했을 것이다.&lt;/p&gt;
 &lt;p&gt;ACE의 다른 예시를 들자면 C나 C++와 같이 메모리 영역에 직접 접근 가능한 언어에서 발생하는 버퍼 오버플로를 활용한 공격도 크게 보면 ACE 취약점의 일부로 볼 수 있겠다. 정상적인 방법으로는 실행되지 않는 사용자 입력 영역을 실행시킨다는 개념은 같기 때문이다.&lt;/p&gt;
 &lt;p&gt;물론 위의 ACE 취약점을 예방하는 방법은 여러 가지가 있다. Python에서 파일 및 네트워킹 기능을 제거한 채 컴파일한 커스텀 언어를 사용할 수도 있꼬고, AWS를 활용해 가상화 레이어를 추가하거나, 특정 함수의 동작을 패턴 매칭이나 &lt;a href=&#34;https://github.com/zopefoundation/RestrictedPython&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;RestrictedPython&lt;/a&gt; 같은 외부 패키지로 제한할 수도 있다. 하지만 가장 좋은 것은 &lt;a href=&#34;https://www.acmicpc.net/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;백준&lt;/a&gt;과 같은 온라인 저지처럼 ACE가 반드시 필요한 경우가 아니라면 이를 처음부터 예방하는 것이다.&lt;/p&gt;
-&lt;h2&gt;Easyplotlib request 설계&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;easyplotlib-request-설계&#34;&gt;&lt;/span&gt;
+&lt;h2&gt;Easyplotlib request 설계&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;easyplotlib-request-설계&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#easyplotlib-request-%ec%84%a4%ea%b3%84&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;사실 Easyplotlib은 저런 이상한 설계를 애초부터 고려할 생각이 없었다. 데이터를 구조화할 수 있기 때문이다. 다만 문제가 있었다면 구조화된 데이터가 너무 복잡해 이를 검증할 코드를 처음부터 짜기가 상당히 피곤했다.&lt;/p&gt;
-&lt;p&gt;아래 카드를 클릭하면 데이터의 &amp;lsquo;대충 버전&amp;rsquo; 정의를 볼 수 있다. 다만 아래 버전은 최신화되지 않으며 &lt;a href=&#34;https://github.com/ywcheong/easyplotlib/blob/main/docs/interface.md&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;이 링크&lt;/a&gt;에서 최신 커밋의 &amp;lsquo;대충 버전&amp;rsquo;을 볼 수 있다.&lt;/p&gt;
-&lt;details class=&#34;last-of-type:hx-mb-0 hx-rounded-lg hx-bg-neutral-50 dark:hx-bg-neutral-800 hx-p-2 hx-mt-4 hx-group&#34; &gt;
-  &lt;summary class=&#34;hx-flex hx-items-center hx-cursor-pointer hx-select-none hx-list-none hx-p-1 hx-rounded hx-transition-colors hover:hx-bg-gray-100 dark:hover:hx-bg-neutral-800 before:hx-mr-1 before:hx-inline-block before:hx-transition-transform before:hx-content-[&#39;&#39;] dark:before:hx-invert rtl:before:hx-rotate-180 group-open:before:hx-rotate-90&#34;&gt;
-    &lt;strong class=&#34;hx-text-lg&#34;&gt;&lt;strong&gt;구조화된 데이터 보기 (JSON)&lt;/strong&gt;&lt;/strong&gt;
+&lt;p&gt;아래 카드를 클릭하면 데이터의 &amp;lsquo;대충 버전&amp;rsquo; 정의를 볼 수 있다. JSON 스키마 등으로 구조화되어 있지는 않고, 다만 설계 단계의 문서를 그대로 가져온지라 깔끔하지 않기는 하다.&lt;/p&gt;
+&lt;details class=&#34;hx:last-of-type:mb-0 hx:rounded-lg hx:bg-neutral-50 hx:dark:bg-neutral-800 hx:p-2 hx:mt-4 hx:group&#34; &gt;
+  &lt;summary class=&#34;hx:flex hx:items-center hx:cursor-pointer hx:select-none hx:list-none hx:p-1 hx:rounded-sm hx:transition-colors hx:hover:bg-gray-100 hx:dark:hover:bg-neutral-800 hx:before:mr-1 hx:before:inline-block hx:before:transition-transform hx:before:content-[&#39;&#39;] hx:dark:before:invert hx:rtl:before:rotate-180 hx:group-open:before:rotate-90&#34;&gt;
+    &lt;strong class=&#34;hx:text-lg&#34;&gt;&lt;strong&gt;구조화된 데이터 보기 (JSON)&lt;/strong&gt;&lt;/strong&gt;
   &lt;/summary&gt;
-  &lt;div class=&#34;hx-p-2 hx-overflow-hidden&#34;&gt;
+  &lt;div class=&#34;hx:p-2 hx:overflow-hidden&#34;&gt;
     &lt;ul&gt;
 &lt;li&gt;request_id : &lt;em&gt;Is uuid4&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;figure
@@ -306,27 +258,24 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
 &lt;/ul&gt;
   &lt;/div&gt;
 &lt;/details&gt;
-&lt;p&gt;이 긴 JSON을 하나하나 검증하는 것은 정신이 나갈 것 같았고, 곧 FastAPI 개발 도중 데이터를 깔끔하게 받을 수 있다는 이유로 사용을 추천한다고 어디선가 읽은 Pydantic 패키지에 대해 조사해보게 되었다.&lt;/p&gt;
-&lt;h2&gt;Pydantic 진작 쓸걸&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;pydantic-진작-쓸걸&#34;&gt;&lt;/span&gt;
-    &lt;a href=&#34;#pydantic-%ec%a7%84%ec%9e%91-%ec%93%b8%ea%b1%b8&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://docs.pydantic.dev/latest/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pydantic&lt;/a&gt;은 여러 기능이 있지만 데이터 검증 기능을 메인으로 내세우는 패키지이다. 기능 설명을 하면 너무 복잡해지지만, 아래와 같은 상황을 생각해 보자.&lt;/p&gt;
-&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
-  
+&lt;p&gt;이 긴 JSON을 하나하나 수동으로 검증하는 것은 오류를 유발하기 쉬워 보였고, 곧 FastAPI 개발 도중 데이터를 깔끔하게 받을 수 있다는 이유로 사용을 추천한다고 어디선가 읽은 Pydantic 패키지에 대해 조사해보게 되었다.&lt;/p&gt;
+&lt;h2&gt;Pydantic 패키지로 검증하기&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;pydantic-패키지로-검증하기&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#pydantic-%ed%8c%a8%ed%82%a4%ec%a7%80%eb%a1%9c-%ea%b2%80%ec%a6%9d%ed%95%98%ea%b8%b0&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://docs.pydantic.dev/latest/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pydantic&lt;/a&gt;은 여러 기능이 있지만 데이터 검증 기능을 메인으로 내세우는 패키지이다. 기능 설명을 하면 너무 복잡해지지만, 아래와 같은 상황을 생각해 보자.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
 
 &lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;    &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;               &lt;span class=&#34;c1&#34;&gt;# 이름&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;age&lt;/span&gt;     &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;               &lt;span class=&#34;c1&#34;&gt;# 나이&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;spouce&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# 배우자&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;friends&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;# 친구&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;friends&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;# 친구&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
   &lt;button
-    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
-    title=&#34;Copy code&#34;
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;코드 복사&#34;
   &gt;
-    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
-    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
   &lt;/button&gt;
 &lt;/div&gt;
-
-  
 &lt;/div&gt;
 &lt;p&gt;Python에서는 Type hint를 통해 Linter의 작동을 보조할 수는 있지만 그것이 실제 데이터의 타입 일치를 보증해 주지는 않는다. 극단적으로는 위 코드에서는 다음 코드도 실제 에러를 일으키기 전까지는 (예: &lt;code&gt;User(spouce=None).spouce.name&lt;/code&gt;) 어떠한 검증도 &amp;lsquo;직접&amp;rsquo; 진행하지 않으면 오류가 숨게 된다. Pydantic의 유스케이스를 몇 개 나열하자면&lt;/p&gt;
 &lt;ul&gt;
@@ -365,10 +314,9 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;사실상 User Input Sanitization이 필요한 모든 곳에 사용할 수 있다. 이걸 진작 배웠으면 지금까지 한 프로젝트에서 이 고생은 안 해도 됐었을 것 같아서 안타까웠다.&lt;/p&gt;
-&lt;h2&gt;Logfire도 배우고 싶은데&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;logfire도-배우고-싶은데&#34;&gt;&lt;/span&gt;
-    &lt;a href=&#34;#logfire%eb%8f%84-%eb%b0%b0%ec%9a%b0%ea%b3%a0-%ec%8b%b6%ec%9d%80%eb%8d%b0&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Pydantic 공식 사이트에 Logfire라고 Pydantic과 호환되는 로깅 툴이 있다. 이것도 배우고 싶은 마음은 드는 까닭이, 과거 내가 작성했던 프로젝트의 코드를 보면 그런 생각이 들 수밖에 없다.&lt;/p&gt;
-&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
-  
+&lt;h2&gt;Logfire와 Pydantic의 연동&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;logfire와-pydantic의-연동&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#logfire%ec%99%80-pydantic%ec%9d%98-%ec%97%b0%eb%8f%99&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Pydantic 공식 사이트에 Logfire라고 Pydantic과 호환되는 로깅 툴이 있다. 이 패키지도 흥미로웠는데, 과거 내가 작성했던 프로젝트의 코드를 보면 그럴 수밖에 없었다.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
 
 &lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 구 프로젝트 코드 (일부 변경됨)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;putLog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;action&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
@@ -387,48 +335,47 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;putLog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;SystemComponentA&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;auto-sync&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;[sync-ratio = &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:.3f}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;]&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;theory_max&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
   &lt;button
-    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
-    title=&#34;Copy code&#34;
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;코드 복사&#34;
   &gt;
-    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
-    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
   &lt;/button&gt;
 &lt;/div&gt;
-
-  
 &lt;/div&gt;
-&lt;p&gt;이렇게 누더기 같은 코드로 로깅을 했는데, 사실 모든 줄에 &lt;code&gt;print&lt;/code&gt;를 하면서 테스팅하는거랑 별반 다르지않은 주먹구구식이다.&lt;/p&gt;
-&lt;h2&gt;개발자 마인드셋&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;개발자-마인드셋&#34;&gt;&lt;/span&gt;
-    &lt;a href=&#34;#%ea%b0%9c%eb%b0%9c%ec%9e%90-%eb%a7%88%ec%9d%b8%eb%93%9c%ec%85%8b&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;사실 지금까지 Pydantic을 안 배운 이유는 간단하다. 지금까지 Pydantic을 필요로 할 만큼 복잡한 데이터 Validation 로직이 필요 없었기 때문이다. 항상 하는 생각이지만 비즈니스 로직이 복잡해지면 주먹구구식에는 한계가 생기고, 이로 인해 새로운 기술을 배워야 하는 시점이 오는 것 같다. 그리고 새 기술을 배우고 나면 &amp;lsquo;이걸 진작 배울걸 왜 이제서야 활용할까&amp;rsquo;와 같은 생각이 든다.&lt;/p&gt;
-&lt;p&gt;하지만 결국 필요를 느껴야 배우게 되는 것 같다. 그리고 그 필요를 가장 빠르게 느낄 수 있는 곳은 결국 프로젝트 아닐까. 단일 책임 원칙도, 테스팅도, 커버리지도, AWS도, Python도, Websocket도, Agile도, OS도 결국 필요하니까 배울 수밖에 없었다. 귀납적으로 생각하면 Logfire도 필요를 느낀 미래의 내가 배우지 않을까, 아마도? ■&lt;/p&gt;
+&lt;p&gt;이렇게 누더기 같은 코드로 로깅을 했는데, 중복되는 코드도 너무 많고 오류의 가능성도 높아 바람직하지 않았기 때문이다.&lt;/p&gt;
+&lt;h2&gt;배운 점&amp;hellip;&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;배운-점&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#%eb%b0%b0%ec%9a%b4-%ec%a0%90&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;사실 지금까지 Pydantic을 안 배운 이유는 지금까지 Pydantic을 필요로 할 만큼 복잡한 데이터 Validation 로직이 필요 없었기 때문이다. 항상 하는 생각이지만 비즈니스 로직이 복잡해지면 주먹구구식에는 한계가 생기고, 이로 인해 새로운 기술을 배워야 하는 시점이 오는 것 같다. 그리고 새 기술을 배우고 나면 &amp;lsquo;이걸 진작 배울걸 왜 이제서야 활용할까&amp;rsquo;와 같은 생각이 든다.&lt;/p&gt;
+&lt;p&gt;하지만 결국 필요를 느낀다면 무엇이든 배우게 되는 것 같다. 그리고 그 필요를 가장 빠르게 느낄 수 있는 곳은 결국 프로젝트 아닐까. 단일 책임 원칙도, 테스팅도, 커버리지도, AWS도, Python도, Websocket도, Agile도, OS도 결국 필요하면 배우게 된다. 귀납적으로 생각하면 Logfire도 필요를 느낀 미래의 내가 배우지 않을까, 아마도? 배우는 게 즐거운 것은 참 큰 축복이라고 생각한다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(2025.05.20. 업데이트)&lt;/strong&gt; 실제로 곧 배우게 되었다. 사실 Python으로 주먹구구 개발을 할 때와는 다르게 Java Spring Boot 프레임워크를 활용해 보니 이러한 문제들에 대한 고민이 이미 상당히 정형화된 형태로 완성되어 있었다. 위 Pydantic에 대응하는 Spring 기능은 Validation 프레임워크이다. 또한 Logfire 기능은 Logback 등으로 역시 Java Spring에서 활용할 수 있다.&lt;/p&gt;
+&lt;p&gt;또한 이러한 이슈들은 결국 운영과 연결되어 있다는 것도 알게 되었다. 단순한 개발 환경과는 다르게 실제 운영되는 서비스는 Logging, Observability, Error Handling 등이 매우 중요해지기 때문이다. 이 사례는 Spring Boot를 처음 배울 때, 중요하지만 비즈니스 로직과는 무관한 관점들을 분리한다는 Aspect Oriented Programming을 별다른 어려움 없이 쉽게 이해하는 데 큰 도움을 주었다. ■&lt;/p&gt;
 
       </description>
     </item>
     
     <item>
       <title>FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)</title>
-      <link>https://blog.ywcheong.com/post/fastapi-spooky-story/</link>
+      <link>/fastapi-spooky-story/</link>
       <pubDate>Fri, 04 Oct 2024 23:17:03 +0900</pubDate>
       
-      <guid>https://blog.ywcheong.com/post/fastapi-spooky-story/</guid>
+      <guid>/fastapi-spooky-story/</guid>
       <description>
         
         
-        &lt;h2&gt;FastAPI 개발 중 겪은 일&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;fastapi-개발-중-겪은-일&#34;&gt;&lt;/span&gt;
+        &lt;h2&gt;FastAPI 개발 중 겪은 일&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;fastapi-개발-중-겪은-일&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#fastapi-%ea%b0%9c%eb%b0%9c-%ec%a4%91-%ea%b2%aa%ec%9d%80-%ec%9d%bc&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;FastAPI를 활용한 &lt;a href=&#34;../../project/easyplotlib&#34; &gt;새 웹 프로젝트&lt;/a&gt;를 개발하던 중 미스터리한 일을 겪었다. (스포일러: 귀신은 없었다.)
 이번 프로젝트에서는 AWS를 사용해 프로덕션을 개발할 생각이었기에, 개발 환경은 AWS EC2로 세팅을 마쳤었다.
 Python 프로젝트는 여러 번 해 봤지만 FastAPI를 활용하는 경우는 처음이어서 간단한 &lt;a href=&#34;https://fastapi.tiangolo.com/ko/#_5&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;데모 코드&lt;/a&gt;를 가지고 원리를 이해하고 있었다.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;https://blog.ywcheong.com/fastapi-spooky-story-1.png&#34; title=&#34;당시 개발 화면&#34; alt=&#34;&#34; loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;/fastapi-spooky-story-1.png&#34; title=&#34;당시 개발 화면&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;당시 개발 화면&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;당시 개발 중이던 환경은 위 화면과 같았는데, Visual Studio Code에 Remote-SSH 익스텐션을 설치해서 원격으로 EC2 Instance에 접속하였었다.
 사진이 작아서 잘 안 보이기는 하지만, 화면을 보면 당시 AWS EC2에 부여된 Public IP가 &lt;code&gt;172.31.3.163&lt;/code&gt;임을 알 수 있다.&lt;/p&gt;
 &lt;p&gt;FastAPI에서는 서버를 실행하기 위해 &lt;code&gt;fastapi dev my-file.py&lt;/code&gt;와 같은 명령을 실행하는데, 그 결과로 아래와 같은 출력을 얻을 수 있었다.&lt;/p&gt;
-&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
-  
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
 
 &lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; ╭────────── FastAPI CLI - Development mode ───────────╮                                                                                                                                                                                                                                                                  
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │                                                     │                                                                                                                                                                                                                                                                  
@@ -440,35 +387,33 @@ Python 프로젝트는 여러 번 해 봤지만 FastAPI를 활용하는 경우�
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │                                                     │                                                                                                                                                                                                                                                                  
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │  fastapi run                                        │                                                                                                                                                                                                                                                                  
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │                                                     │                                                                                                                                                                                                                                                                  
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; ╰─────────────────────────────────────────────────────╯&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; ╰─────────────────────────────────────────────────────╯&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
   &lt;button
-    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
-    title=&#34;Copy code&#34;
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;코드 복사&#34;
   &gt;
-    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
-    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
   &lt;/button&gt;
 &lt;/div&gt;
-
-  
 &lt;/div&gt;
 &lt;p&gt;여기서 주목할 점은 FastAPI 서버가 &lt;code&gt;http://127.0.0.1:8000&lt;/code&gt;에 개방되었다는 정보이다.
 EC2 보안그룹 정책을 통해 당시 8000번 포트는 접속을 개방한 상태였다.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;https://blog.ywcheong.com/fastapi-spooky-story-2.png&#34; title=&#34;AWS 보안그룹 설정, 8000번 포트가 모든 IP에 대해 개방되어 있다.&#34; alt=&#34;&#34; loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;/fastapi-spooky-story-2.png&#34; title=&#34;AWS 보안그룹 설정, 8000번 포트가 모든 IP에 대해 개방되어 있다.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;AWS 보안그룹 설정, 8000번 포트가 모든 IP에 대해 개방되어 있다.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;따라서 내 생각으로는 Public IP가 &lt;code&gt;172.31.3.163&lt;/code&gt;이고, 8000번 포트가 개방되었으니 내 브라우저에서 &lt;code&gt;http://172.31.3.163:8000&lt;/code&gt;으로 접근하면 테스트 서버에 접속할 수 있겠다는 판단이었다.&lt;/p&gt;
-&lt;h2&gt;귀신 들린 컴퓨터&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;귀신-들린-컴퓨터&#34;&gt;&lt;/span&gt;
+&lt;h2&gt;귀신 들린 컴퓨터&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;귀신-들린-컴퓨터&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#%ea%b7%80%ec%8b%a0-%eb%93%a4%eb%a6%b0-%ec%bb%b4%ed%93%a8%ed%84%b0&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;그러나 뜻밖의 일이 일어났다. &lt;code&gt;http://172.31.3.163:8000&lt;/code&gt;은 Timeout이 뜨면서 접속이 되지 않았다.
 왜 이러나 싶어서 VPC 설정이 잘못된 건지, 새 프로젝트를 시작하면서 새로 만든 서브넷의 설정이 망가진 건지, 라우팅 테이블은 멀쩡한지 다 뒤져봤다.&lt;/p&gt;
 &lt;p&gt;아무리 찾아도 문제가 해결되지 않던 중, 혹시나 하는 생각에 &lt;code&gt;http://127.0.0.1:8000&lt;/code&gt;로 접속을 시도해 봤더니&amp;hellip;&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;https://blog.ywcheong.com/fastapi-spooky-story-3.png&#34; title=&#34;아무 설정도 안 했는데 내 컴퓨터에서 원격 PC에 접속이 된다???&#34; alt=&#34;&#34; loading=&#34;lazy&#34; /&gt;
-    &lt;figcaption&gt;아무 설정도 안 했는데 내 컴퓨터에서 원격 PC에 접속이 된다???&lt;/figcaption&gt;
+    &lt;img src=&#34;/fastapi-spooky-story-3.png&#34; title=&#34;아무 설정도 안 했는데 내 컴퓨터에서 원격 PC에 접속이 된다?&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;아무 설정도 안 했는데 내 컴퓨터에서 원격 PC에 접속이 된다?&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;여기서부터 뭔가 이상해졌다. 내가 설정한 건 SSH지 VPN이 아니었는데, 왜 localhost에서 EC2 인스턴스랑 연결이 되는 거지?
-이때 별별 생각을 다 하면서 구글링을 했는데, 너무 연관된 주제가 많다 보니 키워드 산정부터 어려움이 있었다. 당시 상황을 종합하면&lt;/p&gt;
+이때 별 생각을 다 하면서 구글링을 했는데, 너무 연관된 주제가 많다 보니 키워드 산정부터 어려움이 있었다. 당시 상황을 종합하면&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;AWS EC2랑&lt;/li&gt;
 &lt;li&gt;SSH로 연결해&lt;/li&gt;
@@ -476,36 +421,28 @@ EC2 보안그룹 정책을 통해 당시 8000번 포트는 접속을 개방한 �
 &lt;li&gt;Public IP로는 접속이 안 되지만&lt;/li&gt;
 &lt;li&gt;Localhost에서는 접속이 됨&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;이었는데, 상황이 요모양이니 검색 키워드도 제대로 나오지 않았다. AI 검색엔진에게 물어봐도 이상한 답만 했다.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;나: (대충 상황 설명을 영어로)&lt;/p&gt;
-&lt;p&gt;AI: (영어로) 당신이 이해를 잘못하고 있습니다. 말씀하신 상황은 불가능하고, Localhost에서 접속이 됐다는 것은 당신이 원격에서 서버를 실행 중인 것이 아님을 뜻합니다.
-실제로는 당신의 로컬 컴퓨터에서 서버가 실행 중일 것입니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;이 대답 때문에 작업 관리자도 열었는데, 결론은 AI가 헛소리를 했다는 것이었다.
-이 답변 때문에 괜히 시간만 낭비했다.&lt;/p&gt;
-&lt;p&gt;이 시점에서 FastAPI 배우기는 이미 뒷전으로 밀려났고, 나는 지금 당장 이게 왜 작동하는지 알고 싶었다.
-이를 해결하고자 이 이상현상의 잠재적 원인은 AWS, SSH, FastAPI 중 한 곳에 있을 것이라는 가설을 세우고 각개격파하기로 결정했다.&lt;/p&gt;
-&lt;h2&gt;문제의 원인 - 가설&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;문제의-원인---가설&#34;&gt;&lt;/span&gt;
-    &lt;a href=&#34;#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%9b%90%ec%9d%b8---%ea%b0%80%ec%84%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;h3&gt;AWS가 문제다?&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;aws가-문제다&#34;&gt;&lt;/span&gt;
-    &lt;a href=&#34;#aws%ea%b0%80-%eb%ac%b8%ec%a0%9c%eb%8b%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;이것 때문에 AWS 설정을 처음부터 다시 다 확인했다.
-그러나 이상은 없었고, 따지고 보면 AWS가 문제일 가능성은 낮았다.
+&lt;p&gt;이었는데, 연결된 의존성이 많다 보니 검색 키워드도 제대로 나오지 않았다.&lt;/p&gt;
+&lt;p&gt;이 시점에서 FastAPI 배우기는 우선순위에서 밀려나 버렸고, 나는 지금 당장 이게 왜 작동하는지 알고 싶었다.
+이를 해결하고자 이 이상현상의 잠재적 원인은 AWS, SSH, FastAPI 중 한 곳에 있을 것이라는 가설을 세우고 각각 검증하기로 결정했다.&lt;/p&gt;
+&lt;h2&gt;문제의 원인 - 가설&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;문제의-원인---가설&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%9b%90%ec%9d%b8---%ea%b0%80%ec%84%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;h3&gt;AWS가 문제다?&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;aws가-문제다&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#aws%ea%b0%80-%eb%ac%b8%ec%a0%9c%eb%8b%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;AWS 설정을 처음부터 다시 다 확인했지만 이상은 없었고, 따지고 보면 AWS가 문제일 가능성은 낮았다.
 AWS가 잘못되었다면 연결이 아예 안 되었으면 안 되었지, localhost에서 연결이 되는 건 AWS로 설명하기 힘들었다.&lt;/p&gt;
-&lt;h3&gt;SSH가 문제다?&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;ssh가-문제다&#34;&gt;&lt;/span&gt;
+&lt;h3&gt;SSH가 문제다?&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;ssh가-문제다&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#ssh%ea%b0%80-%eb%ac%b8%ec%a0%9c%eb%8b%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;SSH가 문제가 있을 가능성이 높아 보였다. 어찌됐든 Remote와 Local을 잇는 거의 직접적인 bridge이기 때문이었다.
 그러나 어떻게 연결이 SSH 밖으로 &amp;ldquo;샐&amp;rdquo; 수 있는지는 미지수였고, 따라서 FastAPI와 연관이 있을 것이라고 생각했다.&lt;/p&gt;
-&lt;h3&gt;FastAPI가 문제다?&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;fastapi가-문제다&#34;&gt;&lt;/span&gt;
+&lt;h3&gt;FastAPI가 문제다?&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;fastapi가-문제다&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#fastapi%ea%b0%80-%eb%ac%b8%ec%a0%9c%eb%8b%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;아무래도 FastAPI 자체에 뭔가 기능이 있는 것 같았다.
 이때 내가 세운 가설은 FastAPI의 &lt;code&gt;fastapi dev my-file.py&lt;/code&gt;를 실행하는 과정에서 현재 환경이 SSH인지 아닌지를 판단하여, SSH일 경우 자동으로 추가 연결을 수립하는 숨겨진 매커니즘이 있을 것이라고 생각했다.&lt;/p&gt;
-&lt;h3&gt;UVicorn이 문제다?&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;uvicorn이-문제다&#34;&gt;&lt;/span&gt;
+&lt;h3&gt;UVicorn이 문제다?&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;uvicorn이-문제다&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#uvicorn%ec%9d%b4-%eb%ac%b8%ec%a0%9c%eb%8b%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;FastAPI Document를 뒤지던 중 FastAPI의 서버 구현은 &lt;a href=&#34;https://www.uvicorn.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;UVicorn&lt;/a&gt;이라는 오픈소스에 의존한다는 것을 알게 되었다.
 이떄 Uvicorn SSH와 같은 키워드로 검색을 해 보았지만, SSH 환경일 경우에만 발동하는 특별 기능이 있다는 말은 없었다.&lt;/p&gt;
-&lt;h3&gt;뜻밖의 장소에서 얻어낸 힌트&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;뜻밖의-장소에서-얻어낸-힌트&#34;&gt;&lt;/span&gt;
+&lt;h3&gt;뜻밖의 장소에서 얻어낸 힌트&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;뜻밖의-장소에서-얻어낸-힌트&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#%eb%9c%bb%eb%b0%96%ec%9d%98-%ec%9e%a5%ec%86%8c%ec%97%90%ec%84%9c-%ec%96%bb%ec%96%b4%eb%82%b8-%ed%9e%8c%ed%8a%b8&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;여기까지 오도록 문제가 해결될 기미는 안 보였는데, 그러던 중 우연히 실마리를 하나 찾게 된다.
 검색 중에 Visual Studio Code가 아니라 Git Bash로 SSH에 접속해 &lt;code&gt;fastapi dev my-file.py&lt;/code&gt;를 실행했더니, 더 이상 &lt;code&gt;localhost:8000&lt;/code&gt;으로 웹페이지에 접속할 수 없었다.
 이상함을 느끼고 다시 Visual Studio Code로 SSH를 연결했더니 이번에는 접속이 되었다.
 이 상황을 실마리 삼아 &lt;code&gt;vscode ssh remote localhost&lt;/code&gt;라고 구글에 검색해보게 되었고, 이 시점에서 문제의 원인이 명확해졌다.&lt;/p&gt;
-&lt;h2&gt;문제의 원인 - 정답&lt;span class=&#34;hx-absolute -hx-mt-20&#34; id=&#34;문제의-원인---정답&#34;&gt;&lt;/span&gt;
+&lt;h2&gt;문제의 원인 - 정답&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;문제의-원인---정답&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#%eb%ac%b8%ec%a0%9c%ec%9d%98-%ec%9b%90%ec%9d%b8---%ec%a0%95%eb%8b%b5&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;2021년에 나와 같은 문제를 겪고 있는 사람이 작성한 &lt;a href=&#34;https://caniro.tistory.com/292&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;블로그&lt;/a&gt;에서 정답을 알 수 있었다.
 Vscode에서 SSH로 접속할 때는 그냥 접속하지 않고 &lt;a href=&#34;https://code.visualstudio.com/docs/remote/ssh&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Remote-SSH&lt;/a&gt;라는 익스텐션을 사용한다.
 이 플러그인에는 Port Forwarding이라는 기능이 내장되어 있는데, 원격 서버의 Port와 로컬 머신의 Port를 바인딩해 주는 기능이다.
@@ -519,28 +456,24 @@ Vscode에서 SSH로 접속할 때는 그냥 접속하지 않고 &lt;a href=&#34;
 &lt;/ul&gt;
 &lt;p&gt;실제로 이 사실을 알고 다시 Vscode를 확인해 보니 아래와 같은 탭을 발견할 수 있었다.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;https://blog.ywcheong.com/fastapi-spooky-story-4.png&#34; title=&#34;Remote 8000번 포트가 localhost:8000로 Forward되고 있다.&#34; alt=&#34;&#34; loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;/fastapi-spooky-story-4.png&#34; title=&#34;Remote 8000번 포트가 localhost:8000로 Forward되고 있다.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;Remote 8000번 포트가 localhost:8000로 Forward되고 있다.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;사실, 이 문제는 두 가지 문제가 결합한 문제였다. localhost에서 접속이 되는 것도 문제지만, Public IP를 통해서는 접속할 수 없었던 것을 기억하는가?
 FastAPI dev 서버에서 Public IP를 통해 접속을 허용하려면 사실은 아래와 같은 옵션을 주어야 했다.&lt;/p&gt;
-&lt;div class=&#34;hextra-code-block hx-relative hx-mt-6 first:hx-mt-0 hx-group/code&#34;&gt;
-  
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
 
-&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fastapi dev my-file.py --host 0.0.0.0&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx-opacity-0 hx-transition group-hover/code:hx-opacity-100 hx-flex hx-gap-1 hx-absolute hx-m-[11px] hx-right-0 hx-top-0&#34;&gt;
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fastapi dev my-file.py --host 0.0.0.0&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
   &lt;button
-    class=&#34;hextra-code-copy-btn hx-group/copybtn hx-transition-all active:hx-opacity-50 hx-bg-primary-700/5 hx-border hx-border-black/5 hx-text-gray-600 hover:hx-text-gray-900 hx-rounded-md hx-p-1.5 dark:hx-bg-primary-300/10 dark:hx-border-white/10 dark:hx-text-gray-400 dark:hover:hx-text-gray-50&#34;
-    title=&#34;Copy code&#34;
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;코드 복사&#34;
   &gt;
-    &lt;div class=&#34;copy-icon group-[.copied]/copybtn:hx-hidden hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
-    &lt;div class=&#34;success-icon hx-hidden group-[.copied]/copybtn:hx-block hx-pointer-events-none hx-h-4 hx-w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
   &lt;/button&gt;
 &lt;/div&gt;
-
-  
 &lt;/div&gt;
-&lt;p&gt;이 옵션을 주고 실행하면, (보안 설정이 문제 없다는 가정 하에) Public IP를 사용해 &lt;code&gt;http://172.31.3.163:8000&lt;/code&gt;로도 접근할 수 있다.
-정작 FastAPI는 별로 공부 못 했지만, 뜻하지 않게 탐구 정신과 실험이 넘치는 하루였다. ■&lt;/p&gt;
+&lt;p&gt;이 옵션을 주고 실행하면, (보안 설정이 문제 없다는 가정 하에) Public IP를 사용해 &lt;code&gt;http://172.31.3.163:8000&lt;/code&gt;로도 접근할 수 있다. ■&lt;/p&gt;
 
       </description>
     </item>
