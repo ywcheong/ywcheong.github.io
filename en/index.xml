@@ -1,0 +1,453 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ywcheong::blog – ywcheong::blog</title>
+    <link>/en/</link>
+    <description>Recent content on ywcheong::blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    
+	  <atom:link href="/en/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+      
+    
+    
+    <item>
+      <title>SKT 해킹하기, 게임 치트 만들기, 그리고 넷플릭스 불법 다운로드하기: 하드웨어, 커널과 유저를 통해 살펴보는 보안</title>
+      <link>/en/skt-esp-and-netflix/</link>
+      <pubDate>Tue, 20 May 2025 17:26:58 +0900</pubDate>
+      
+      <guid>/en/skt-esp-and-netflix/</guid>
+      <description>
+        
+        
+        &lt;h1&gt;ENGLISH TODO&lt;/h1&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>sys.setrecursionlimit(10**6) Is NOT a Silver Bullet</title>
+      <link>/en/python-recursion-bug/</link>
+      <pubDate>Thu, 31 Oct 2024 20:19:49 +0900</pubDate>
+      
+      <guid>/en/python-recursion-bug/</guid>
+      <description>
+        
+        
+        &lt;h2&gt;To Begin with the Conclusion&amp;hellip;&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;to-begin-with-the-conclusion&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#to-begin-with-the-conclusion&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;When solving algorithm problems in Python, if your logic requires exceeding the default recursion limit of 1000, it&amp;rsquo;s better to refactor your code to use iterative functions or consider switching to C or C++. Otherwise, &lt;strong&gt;there is a risk of encountering fatal bugs on Windows that cannot be detected&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2&gt;Where the Problem Started&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;where-the-problem-started&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#where-the-problem-started&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;This all began while I was solving &lt;a href=&#34;https://www.acmicpc.net/problem/11049&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Baekjoon 11049 (Matrix Chain Multiplication)&lt;/a&gt;. This problem is a classic dynamic programming question where memoization is used, and recursion makes the structure clean and intuitive.&lt;/p&gt;
+&lt;p&gt;Although C or C++ is generally recommended for algorithm problems, I often use Python for various projects and felt comfortable using it here. However, due to the tight time limits set for the problem, I encountered several time limit errors. (For reference, after converting the code to C via ChatGPT, it ran in under 10ms.) To analyze which part of the program was slow, I created a large test case and fed it as input.&lt;/p&gt;
+&lt;p&gt;The problem was about finding the most efficient way to multiply n matrices, and n was less than 500. I became curious about what would happen if n was larger, so I generated a test case with n = 5000.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/python-recursion-bug-1.png&#34; title=&#34;matrix_size = 5000.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;matrix_size = 5000.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Surprisingly, the program terminated immediately with no output whatsoever.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/python-recursion-bug-2.png&#34; title=&#34;Reenactment of the situation. No output from the program. Although not shown, the program had ended.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;Reenactment of the situation. No output from the program. Although not shown, the program had ended.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;There was no RecursionError, which is a common error when doing PS (problem solving) in Python. There were no error messages or anything unusual. Most importantly, if n was reasonably small (e.g., n = 500), the program ran just fine.&lt;/p&gt;
+&lt;p&gt;I searched many times for a solution, but found very little documentation on the root cause, so I decided to summarize it myself.&lt;/p&gt;
+&lt;h2&gt;How to Reproduce the Problem&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;how-to-reproduce-the-problem&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#how-to-reproduce-the-problem&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Actually, this issue can be reproduced with a very simple Python script.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sys&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;sys&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;setrecursionlimit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10000010&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;recursion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;recursion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Program Start&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;recursion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10000000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Program End&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;If you run this code in a &lt;strong&gt;Windows terminal&lt;/strong&gt; as &lt;code&gt;python3 script.py&lt;/code&gt;, you&amp;rsquo;ll see &amp;ldquo;Program Start&amp;rdquo; and then the command will exit with no further output. If you run it in the Python REPL, the REPL itself will crash.&lt;/p&gt;
+&lt;p&gt;This has already been reported in &lt;a href=&#34;https://bugs.python.org/issue45645&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Python Bugtracker Issue#45645&lt;/a&gt;. To summarize: When a recursive function gets too deep on Windows, a Stack Overflow error occurs. On Windows, there&amp;rsquo;s no way to properly catch this error, so Python just dies. When a program exceeds the stack size on Windows, the process is terminated immediately, and the bug was closed as &amp;ldquo;Won&amp;rsquo;t Fix.&amp;rdquo; Technically, it&amp;rsquo;s possible to create a &lt;a href=&#34;https://learn.microsoft.com/ko-kr/windows/win32/memory/creating-guard-pages&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Guard Page&lt;/a&gt; for protection, but considering the overhead and the fact that most Python programs don&amp;rsquo;t use such deep recursion, it hasn&amp;rsquo;t been implemented.&lt;/p&gt;
+&lt;h3&gt;This Bug Does Not Occur on Linux&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;this-bug-does-not-occur-on-linux&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#this-bug-does-not-occur-on-linux&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/python-recursion-bug-3.png&#34; title=&#34;This code, which doesn&amp;#39;t work on Windows, runs in under 0.01 seconds on Linux. Screenshot from Amazon EC2 Linux.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;This code, which doesn&amp;#39;t work on Windows, runs in under 0.01 seconds on Linux. Screenshot from Amazon EC2 Linux.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;On Linux, this bug does not occur. Even with &lt;code&gt;setrecursionlimit&lt;/code&gt; set to an extremely high value (e.g., 2.1 billion), the code runs fine. This is because Linux and Windows handle process stack size limits differently.&lt;/p&gt;
+&lt;p&gt;According to the &lt;a href=&#34;https://docs.python.org/ko/3/library/resource.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Python module - resource documentation&lt;/a&gt;, Linux provides the &lt;code&gt;resource&lt;/code&gt; module to directly control stack size, but Windows does not. This is because the &lt;code&gt;resource&lt;/code&gt; module uses the &lt;code&gt;setrlimit&lt;/code&gt; system call in Linux, but Windows does not allow dynamic stack size changes at runtime. On Windows, if you want to use more stack space, you have to create a new thread with a larger stack, or use other indirect methods. Also, the default stack size on Windows is generally smaller than on Linux.&lt;/p&gt;
+&lt;div class=&#34;hx:overflow-x-auto hx:mt-6 hx:flex hx:rounded-lg hx:border hx:py-2 hx:ltr:pr-4 hx:rtl:pl-4 hx:contrast-more:border-current hx:contrast-more:dark:border-current hx:border-yellow-100 hx:bg-yellow-50 hx:text-yellow-900 hx:dark:border-yellow-200/30 hx:dark:bg-yellow-700/30 hx:dark:text-yellow-200&#34;&gt;
+  &lt;div class=&#34;hx:ltr:pl-3 hx:ltr:pr-2 hx:rtl:pr-3 hx:rtl:pl-2&#34;&gt;&lt;div class=&#34;hx:select-none hx:text-xl&#34; style=&#34;font-family: &#39;Apple Color Emoji&#39;, &#39;Segoe UI Emoji&#39;, &#39;Segoe UI Symbol&#39;;&#34;&gt;⚠️&lt;/div&gt;&lt;/div&gt;
+
+  &lt;div class=&#34;hx:w-full hx:min-w-0 hx:leading-7&#34;&gt;
+    &lt;div class=&#34;hx:mt-6 hx:leading-7 hx:first:mt-0&#34;&gt;The default stack size can change easily depending on compiler options or commands like &lt;code&gt;ulimit -s stack_size&lt;/code&gt; on Linux. However, the fact that Windows cannot dynamically change stack size at runtime remains true, so the situation doesn&amp;rsquo;t change much.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In summary, Linux (unlike Windows):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Can dynamically expand the stack at runtime&lt;/li&gt;
+&lt;li&gt;(Usually, but not always) Has a larger default stack size&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These factors combine to create the observed differences.&lt;/p&gt;
+&lt;h2&gt;So, What Should You Do?&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;so-what-should-you-do&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#so-what-should-you-do&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;To fundamentally solve the problem, it&amp;rsquo;s best not to use recursion. But in PS (problem solving), recursion can be much more intuitive.&lt;/p&gt;
+&lt;p&gt;In most cases, C or C++ is used for PS, so this problem is less common. C and C++ support tail recursion optimization, but Python does not, leading to significant differences in resource usage. The code that caused the problem above runs in less than 10ms when converted to C.&lt;/p&gt;
+&lt;p&gt;So, the most appropriate approach is:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If using C or C++:
+&lt;ul&gt;
+&lt;li&gt;Use recursion carefully, leveraging tail recursion optimization.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;If using Python or other languages:
+&lt;ul&gt;
+&lt;li&gt;Use recursion only for small recursion depths (&amp;lt; 1,000).&lt;/li&gt;
+&lt;li&gt;Even then, be aware of the overhead, and avoid recursion when possible.&lt;/li&gt;
+&lt;li&gt;Be very careful about arbitrarily increasing the recursion limit with &lt;code&gt;sys.setrecursionlimit&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;(2025.05.20. Update)&lt;/strong&gt; In fact, recursion carries risks even aside from performance. Industry standards for mission-critical systems, like &lt;a href=&#34;https://www.iso.org/standard/68383.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ISO 26262&lt;/a&gt;, often explicitly prohibit recursion because it complicates static code analysis and makes recursion depth difficult to control. Of course, considering all these factors when solving coding test problems may be overengineering, but it&amp;rsquo;s important to understand the costs of recursion.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>In Python 2, input() is eval(raw_input())</title>
+      <link>/en/python2-input-eval/</link>
+      <pubDate>Sun, 06 Oct 2024 22:43:58 +0900</pubDate>
+      
+      <guid>/en/python2-input-eval/</guid>
+      <description>
+        
+        
+        &lt;h2&gt;Building the Easyplotlib Structure&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;building-the-easyplotlib-structure&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#building-the-easyplotlib-structure&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The very first step I took while developing &lt;a href=&#34;../../project/easyplotlib&#34; &gt;Easyplotlib&lt;/a&gt; was to define the communication protocol between the frontend and backend. To briefly explain this project, its main function is to automatically generate code according to the user&amp;rsquo;s requirements (though it&amp;rsquo;s not AI), execute it, and then show the results. Since the project dynamically generates and executes code, I was very mindful of the risk of introducing &lt;a href=&#34;https://www.okta.com/identity-101/arbitrary-code-execution/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ACE (Arbitrary Code Execution)&lt;/a&gt; vulnerabilities if the structure was poorly designed.&lt;/p&gt;
+&lt;h2&gt;Arbitrary Code Execution Vulnerability&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;arbitrary-code-execution-vulnerability&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#arbitrary-code-execution-vulnerability&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Generating code directly in the browser and sending it to the server for execution is far too simple, but anyone with even a basic understanding of security would know to absolutely avoid this development method. The server might expect harmless code like &lt;code&gt;matplotlib.pyplot.plot()&lt;/code&gt;, but in reality, code like the following could be sent:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;subprocess&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;subprocess&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;rm&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;-rf&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;--no-preserve-root&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h3&gt;Python 2&amp;rsquo;s input() Is Dangerous&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;python-2s-input-is-dangerous&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#python-2s-input-is-dangerous&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;For example, in Python 2, there were two functions for receiving user input from the terminal: &lt;code&gt;raw_input()&lt;/code&gt; and &lt;code&gt;input()&lt;/code&gt;. &lt;code&gt;raw_input()&lt;/code&gt; always returns a str type, just like Python 3&amp;rsquo;s &lt;code&gt;input()&lt;/code&gt;, but &lt;code&gt;input()&lt;/code&gt; would automatically cast the input if possible, which made it popular when I first learned Python.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Python 2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;raw_input&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# input&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;3&amp;#39;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# output&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;input&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# input&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# output&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;But the shocking truth is that &lt;a href=&#34;https://python.readthedocs.io/en/v2.7.2/library/functions.html#input&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Python 2&amp;rsquo;s input() implementation&lt;/a&gt; was actually &lt;code&gt;eval(raw_input())&lt;/code&gt;! The security issues that could arise from this are almost unimaginable.&lt;/p&gt;
+&lt;p&gt;Another example of ACE is buffer overflow attacks in languages like C or C++ that allow direct access to memory. These can also be considered a type of ACE vulnerability, since the concept is the same: executing code in user input areas that would not normally be executed.&lt;/p&gt;
+&lt;p&gt;Of course, there are many ways to prevent the above ACE vulnerabilities. In Python, you could use a custom language compiled with file and networking features removed, add a virtualization layer using AWS, or restrict certain functions with pattern matching or external packages like &lt;a href=&#34;https://github.com/zopefoundation/RestrictedPython&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;RestrictedPython&lt;/a&gt;. But the best approach is to prevent ACE from the start unless it&amp;rsquo;s absolutely necessary, like in online judges such as &lt;a href=&#34;https://www.acmicpc.net/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Baekjoon&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Easyplotlib Request Design&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;easyplotlib-request-design&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#easyplotlib-request-design&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Actually, Easyplotlib never considered such a problematic design in the first place, since the data could be structured. The only issue was that the structured data was so complex that writing code to validate it from scratch seemed quite tedious.&lt;/p&gt;
+&lt;p&gt;Click the card below to see a &amp;lsquo;rough version&amp;rsquo; of the data definition. It&amp;rsquo;s not structured as a JSON schema, and since it&amp;rsquo;s taken directly from the design document, it&amp;rsquo;s not very clean.&lt;/p&gt;
+&lt;details class=&#34;hx:last-of-type:mb-0 hx:rounded-lg hx:bg-neutral-50 hx:dark:bg-neutral-800 hx:p-2 hx:mt-4 hx:group&#34; &gt;
+  &lt;summary class=&#34;hx:flex hx:items-center hx:cursor-pointer hx:select-none hx:list-none hx:p-1 hx:rounded-sm hx:transition-colors hx:hover:bg-gray-100 hx:dark:hover:bg-neutral-800 hx:before:mr-1 hx:before:inline-block hx:before:transition-transform hx:before:content-[&#39;&#39;] hx:dark:before:invert hx:rtl:before:rotate-180 hx:group-open:before:rotate-90&#34;&gt;
+    &lt;strong class=&#34;hx:text-lg&#34;&gt;&lt;strong&gt;View Structured Data (JSON)&lt;/strong&gt;&lt;/strong&gt;
+  &lt;/summary&gt;
+  &lt;div class=&#34;hx:p-2 hx:overflow-hidden&#34;&gt;
+    &lt;ul&gt;
+&lt;li&gt;request_id : &lt;em&gt;Is uuid4&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;figure
+&lt;ul&gt;
+&lt;li&gt;size
+&lt;ul&gt;
+&lt;li&gt;row : &lt;em&gt;Is numeric, plt.subplot(row, _)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;column : &lt;em&gt;Is numeric, plt.subplot(_, column)&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;axes [List] : &lt;em&gt;length of &lt;code&gt;figure.size.row&lt;/code&gt;&lt;/em&gt;
+&lt;ul&gt;
+&lt;li&gt;[List] : &lt;em&gt;length of &lt;code&gt;figure.size.column&lt;/code&gt;&lt;/em&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Is one of &lt;code&gt;axes[].name&lt;/code&gt; or null. Null axes will not be rendered, as it never exists&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;style
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Every possible key-value pairs are defined at &lt;strong&gt;figure-style&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;axes [List]
+&lt;ul&gt;
+&lt;li&gt;name : &lt;em&gt;Is string&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;plot [List]
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Is one of &lt;code&gt;plot[].name&lt;/code&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;style
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Every possible key-value pairs are defined at &lt;strong&gt;axes-style&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;plot [List]
+&lt;ul&gt;
+&lt;li&gt;name : &lt;em&gt;Is string&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;format : &lt;em&gt;Every possible values are defined at &lt;strong&gt;plot-format-list&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;data
+&lt;ul&gt;
+&lt;li&gt;key: &lt;em&gt;Depending on &lt;code&gt;plot[].format&lt;/code&gt;, there are different required and optional keys. Check &lt;strong&gt;plot-format-list&lt;/strong&gt;.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;value: &lt;em&gt;Is one of &lt;code&gt;data[].name&lt;/code&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;style
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Every possible key-value pairs are defined at &lt;strong&gt;plot-style&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;data [List]
+&lt;ul&gt;
+&lt;li&gt;name : &lt;em&gt;Is string&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;value [List]
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Is numeric&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/details&gt;
+&lt;p&gt;Manually validating this long JSON would be error-prone, so I soon started researching the Pydantic package, which I had read is recommended for receiving clean data during FastAPI development.&lt;/p&gt;
+&lt;h2&gt;Validation with the Pydantic Package&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;validation-with-the-pydantic-package&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#validation-with-the-pydantic-package&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://docs.pydantic.dev/latest/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pydantic&lt;/a&gt; offers many features, but its main selling point is data validation. To avoid making things too complicated, let&amp;rsquo;s consider the following situation:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;    &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;               &lt;span class=&#34;c1&#34;&gt;# Name&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;age&lt;/span&gt;     &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;               &lt;span class=&#34;c1&#34;&gt;# Age&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;spouce&lt;/span&gt;  &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;# Spouse&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;friends&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;# Friends&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;In Python, type hints can help linters, but they don&amp;rsquo;t guarantee actual data type consistency. In the extreme case above, the following code would not raise any error unless you explicitly validate it (e.g., &lt;code&gt;User(spouce=None).spouce.name&lt;/code&gt;). Some use cases for Pydantic include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Type enforcement
+&lt;ul&gt;
+&lt;li&gt;Forcing specific data to follow type hints&lt;/li&gt;
+&lt;li&gt;Allowing automatic casting if possible (e.g., &lt;code&gt;&#39;23&#39; -&amp;gt; 23&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Disabling auto-casting or raising &lt;code&gt;ValidationError&lt;/code&gt; if casting is not possible&lt;/li&gt;
+&lt;li&gt;Handling unspecified entries with error, ignore, or custom conditions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Complex validation
+&lt;ul&gt;
+&lt;li&gt;Adding complex conditions beyond type checks easily via arguments
+&lt;ul&gt;
+&lt;li&gt;For integers: min/max, for strings: length, regex, etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;For overly complex conditions, you can write custom validation functions&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Model validation
+&lt;ul&gt;
+&lt;li&gt;Validating not just individual entries, but also inter-field relationships (custom functions)
+&lt;ul&gt;
+&lt;li&gt;For example, &lt;code&gt;if(self.spouce) assert(self.spouce.name != self.name)&lt;/code&gt; can be set as a function&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Class-JSON conversion support
+&lt;ul&gt;
+&lt;li&gt;Convert class instances to JSON and vice versa&lt;/li&gt;
+&lt;li&gt;All validation is performed automatically during class instantiation and everywhere else, with no extra function calls&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In fact, you can use it anywhere user input sanitization is needed. I regret not learning this sooner, as it would have saved me a lot of trouble in past projects.&lt;/p&gt;
+&lt;h2&gt;Integrating Logfire and Pydantic&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;integrating-logfire-and-pydantic&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#integrating-logfire-and-pydantic&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;On the Pydantic official site, there&amp;rsquo;s a logging tool called Logfire that&amp;rsquo;s compatible with Pydantic. I found this package interesting, and after looking at code from an old project, it made sense why.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Old project code (partially modified)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;putLog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;action&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;action&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;29}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;8}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; |&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;get_current_time_ISO&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;elif&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;29}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;8}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | action = &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;20}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;get_current_time_ISO&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;action&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;29}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;8}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | action = &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:&amp;lt;20}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; | data = &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;get_current_time_ISO&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;action&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;putLog&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;SystemComponentA&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;auto-sync&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;[sync-ratio = &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{:.3f}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;]&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;format&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;theory_max&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;I used to log like this, but there was too much repetitive code and a high possibility of errors, which was not ideal.&lt;/p&gt;
+&lt;h2&gt;What I Learned&amp;hellip;&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;what-i-learned&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#what-i-learned&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The reason I hadn&amp;rsquo;t learned Pydantic until now was simply that I never needed such complex data validation logic before. As always, when business logic gets complicated, there&amp;rsquo;s a limit to ad-hoc solutions, and that&amp;rsquo;s when you have to learn new technologies. And after learning something new, I always wonder, &amp;ldquo;Why didn&amp;rsquo;t I use this earlier?&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;But in the end, you learn when you feel the need. And the fastest place to feel that need is always a project. Whether it&amp;rsquo;s the single responsibility principle, testing, coverage, AWS, Python, Websocket, Agile, or OS, I learned them because I needed them. Inductively, I guess my future self will learn Logfire too, when the need arises. I think it is a great blessing to enjoy learning.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(Update: 2025.05.20.)&lt;/strong&gt; I actually did end up learning it. Unlike my previous ad-hoc Python development, using the Java Spring Boot framework showed me that these issues are already formalized solutions. The Spring equivalent of Pydantic is the Validation framework, and for Logfire, you can use Logback in Java Spring.&lt;/p&gt;
+&lt;p&gt;I also realized that these issues are ultimately connected to operations. Unlike simple development environments, real operating services make logging, observability, and error handling extremely important. This experience was a big help in understanding Aspect Oriented Programming, which separates these concerns from business logic, when I first learned Spring Boot. ■&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>A Haunted Story While Developing with FastAPI (feat. VSCode)</title>
+      <link>/en/fastapi-spooky-story/</link>
+      <pubDate>Fri, 04 Oct 2024 23:17:03 +0900</pubDate>
+      
+      <guid>/en/fastapi-spooky-story/</guid>
+      <description>
+        
+        
+        &lt;h2&gt;The Experience While Developing with FastAPI&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;the-experience-while-developing-with-fastapi&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#the-experience-while-developing-with-fastapi&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;While developing a &lt;a href=&#34;../../project/easyplotlib&#34; &gt;new web project&lt;/a&gt; using FastAPI, I encountered a mysterious incident. (Spoiler: There were no ghosts.) For this project, I planned to use AWS for production, so I had already set up my development environment on AWS EC2. Although I had done several Python projects before, this was my first time using FastAPI, so I was trying to understand the basics with a simple &lt;a href=&#34;https://fastapi.tiangolo.com/ko/#_5&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;demo code&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/fastapi-spooky-story-1.png&#34; title=&#34;Development screen at the time&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;Development screen at the time&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;The environment I was developing in looked like the screen above. I installed the Remote-SSH extension in Visual Studio Code to connect to the EC2 Instance remotely. Although the screenshot is small and hard to see, you can tell that the AWS EC2 was assigned the Public IP &lt;code&gt;172.31.3.163&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To run the server in FastAPI, you execute a command like &lt;code&gt;fastapi dev my-file.py&lt;/code&gt;, and you get output like the following:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; ╭────────── FastAPI CLI - Development mode ───────────╮
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │                                                     │
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │  Serving at: http://127.0.0.1:8000                  │
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │                                                     │
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │  API docs: http://127.0.0.1:8000/docs               │
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │                                                     │
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │  Running in development mode, &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; production use:   │
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │                                                     │
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │  fastapi run                                        │
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; │                                                     │
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; ╰─────────────────────────────────────────────────────╯&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The point to note here is that the FastAPI server is open at &lt;code&gt;http://127.0.0.1:8000&lt;/code&gt;. The EC2 security group policy had already opened port 8000 at the time.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/fastapi-spooky-story-2.png&#34; title=&#34;AWS security group setting, port 8000 is open to all IPs.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;AWS security group setting, port 8000 is open to all IPs.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;So, I thought, since the Public IP is &lt;code&gt;172.31.3.163&lt;/code&gt; and port 8000 is open, I should be able to access the test server from my browser at &lt;code&gt;http://172.31.3.163:8000&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;The Haunted Computer&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;the-haunted-computer&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#the-haunted-computer&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;But something unexpected happened. &lt;code&gt;http://172.31.3.163:8000&lt;/code&gt; timed out and could not be accessed. Wondering if the VPC settings were wrong, or if the subnet I created for the new project was misconfigured, or if the routing table was broken, I checked everything.&lt;/p&gt;
+&lt;p&gt;After checking everything and still not finding the problem, I tried accessing &lt;code&gt;http://127.0.0.1:8000&lt;/code&gt; just in case&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/fastapi-spooky-story-3.png&#34; title=&#34;Without any configuration, I can connect to the remote PC from my own computer?&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;Without any configuration, I can connect to the remote PC from my own computer?&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;This is where things got weird. All I set up was SSH, not a VPN, so why was localhost connecting to the EC2 instance? I started Googling with all sorts of thoughts in mind, but there were so many related topics that even coming up with search keywords was difficult. Summing up the situation at the time:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AWS EC2&lt;/li&gt;
+&lt;li&gt;Connected via SSH&lt;/li&gt;
+&lt;li&gt;FastAPI Dev Server&lt;/li&gt;
+&lt;li&gt;Cannot connect via Public IP&lt;/li&gt;
+&lt;li&gt;Can connect via localhost&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Because there were so many dependencies, I couldn&amp;rsquo;t even come up with proper search keywords. At this point, learning FastAPI became a lower priority, and I just wanted to know why this was happening right now. To solve this, I hypothesized that the root cause of this strange phenomenon would be in one of AWS, SSH, or FastAPI, and decided to verify each.&lt;/p&gt;
+&lt;h2&gt;Hypotheses About the Cause&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;hypotheses-about-the-cause&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#hypotheses-about-the-cause&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Is it AWS?&lt;/strong&gt;&lt;br&gt;
+I checked all the AWS settings from scratch, but there was nothing wrong. If AWS was the problem, it would be hard to explain why I could connect via localhost but not at all otherwise.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Is it SSH?&lt;/strong&gt;&lt;br&gt;
+SSH seemed more likely to be the problem. After all, it&amp;rsquo;s the direct bridge between Remote and Local. But I couldn&amp;rsquo;t figure out how the connection could &amp;ldquo;leak&amp;rdquo; outside SSH, so I thought it might be related to FastAPI.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Is it FastAPI?&lt;/strong&gt;&lt;br&gt;
+I thought there might be some feature in FastAPI itself. My hypothesis was that when running &lt;code&gt;fastapi dev my-file.py&lt;/code&gt;, FastAPI might detect if it&amp;rsquo;s running in an SSH environment and automatically establish some hidden connection.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Is it UVicorn?&lt;/strong&gt;&lt;br&gt;
+While looking through the FastAPI documentation, I found that FastAPI&amp;rsquo;s server implementation relies on the open-source &lt;a href=&#34;https://www.uvicorn.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;UVicorn&lt;/a&gt;. I searched for keywords like Uvicorn SSH, but found no mention of any special feature that only activates in SSH environments.&lt;/p&gt;
+&lt;h2&gt;An Unexpected Clue&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;an-unexpected-clue&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#an-unexpected-clue&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Up to this point, there was no sign of a solution. Then, by chance, I found a clue. While searching, I tried connecting to SSH using Git Bash instead of Visual Studio Code and ran &lt;code&gt;fastapi dev my-file.py&lt;/code&gt;. This time, I could no longer access the web page via &lt;code&gt;localhost:8000&lt;/code&gt;. Feeling something was off, I reconnected with Visual Studio Code, and this time it worked. Using this as a clue, I Googled &amp;ldquo;vscode ssh remote localhost&amp;rdquo; and at this point, the cause became clear.&lt;/p&gt;
+&lt;h2&gt;The Cause of the Problem - The Answer&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;the-cause-of-the-problem---the-answer&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#the-cause-of-the-problem---the-answer&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;I found the answer in a &lt;a href=&#34;https://caniro.tistory.com/292&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;blog post&lt;/a&gt; by someone who had the same problem in 2021. When you connect via SSH in VSCode, you don&amp;rsquo;t just connect; you use an extension called &lt;a href=&#34;https://code.visualstudio.com/docs/remote/ssh&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Remote-SSH&lt;/a&gt;. This plugin has a built-in feature called Port Forwarding, which binds the remote server&amp;rsquo;s port to your local machine&amp;rsquo;s port. In fact, basic SSH also has this feature, but the key difference is that Remote-SSH automatically detects ports and performs port forwarding for you. Because I use SSH so often, I had heard that such a feature existed. But I had never needed to use it before, so I forgot about it, and above all, I didn&amp;rsquo;t know that VSCode would automatically do port forwarding.&lt;/p&gt;
+&lt;p&gt;According to &lt;a href=&#34;https://github.com/microsoft/vscode/issues/143958&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;a comment by a Microsoft developer&lt;/a&gt;, the extension automatically detects open ports in two ways, depending on settings:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Detects processes with open ports among currently running processes&lt;/li&gt;
+&lt;li&gt;Detects terminal output containing a URL + port format&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;After learning this, I checked VSCode again and found the following tab.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/fastapi-spooky-story-4.png&#34; title=&#34;Remote port 8000 is being forwarded to localhost:8000.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;Remote port 8000 is being forwarded to localhost:8000.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Actually, this problem was a combination of two issues. Remember, not only was it strange that I could connect via localhost, but I also couldn&amp;rsquo;t connect via Public IP? To allow connections via Public IP in the FastAPI dev server, you actually need to add the following option:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fastapi dev my-file.py --host 0.0.0.0&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+    &lt;div class=&#34;success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;If you run it with this option (assuming your security settings are correct), you can also access it via &lt;code&gt;http://172.31.3.163:8000&lt;/code&gt; using the Public IP. ■&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
