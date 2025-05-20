@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ywcheong::blog – ywcheong::blog</title>
-    <link>/en/</link>
+    <link>//localhost:1313/en/</link>
     <description>Recent content on ywcheong::blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     
-	  <atom:link href="/en/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="//localhost:1313/en/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -15,10 +15,10 @@
     
     <item>
       <title>sys.setrecursionlimit(10**6) Is NOT a Silver Bullet</title>
-      <link>/en/python-recursion-bug/</link>
+      <link>//localhost:1313/en/python-recursion-bug/</link>
       <pubDate>Thu, 31 Oct 2024 20:19:49 +0900</pubDate>
       
-      <guid>/en/python-recursion-bug/</guid>
+      <guid>//localhost:1313/en/python-recursion-bug/</guid>
       <description>
         
         
@@ -29,12 +29,12 @@
 &lt;p&gt;Although C or C++ is generally recommended for algorithm problems, I often use Python for various projects and felt comfortable using it here. However, due to the tight time limits set for the problem, I encountered several time limit errors. (For reference, after converting the code to C via ChatGPT, it ran in under 10ms.) To analyze which part of the program was slow, I created a large test case and fed it as input.&lt;/p&gt;
 &lt;p&gt;The problem was about finding the most efficient way to multiply n matrices, and n was less than 500. I became curious about what would happen if n was larger, so I generated a test case with n = 5000.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/python-recursion-bug-1.png&#34; title=&#34;matrix_size = 5000.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/python-recursion-bug-1.png&#34; title=&#34;matrix_size = 5000.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;matrix_size = 5000.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;Surprisingly, the program terminated immediately with no output whatsoever.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/python-recursion-bug-2.png&#34; title=&#34;Reenactment of the situation. No output from the program. Although not shown, the program had ended.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/python-recursion-bug-2.png&#34; title=&#34;Reenactment of the situation. No output from the program. Although not shown, the program had ended.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;Reenactment of the situation. No output from the program. Although not shown, the program had ended.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;There was no RecursionError, which is a common error when doing PS (problem solving) in Python. There were no error messages or anything unusual. Most importantly, if n was reasonably small (e.g., n = 500), the program ran just fine.&lt;/p&gt;
@@ -67,7 +67,7 @@
 &lt;p&gt;This has already been reported in &lt;a href=&#34;https://bugs.python.org/issue45645&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Python Bugtracker Issue#45645&lt;/a&gt;. To summarize: When a recursive function gets too deep on Windows, a Stack Overflow error occurs. On Windows, there&amp;rsquo;s no way to properly catch this error, so Python just dies. When a program exceeds the stack size on Windows, the process is terminated immediately, and the bug was closed as &amp;ldquo;Won&amp;rsquo;t Fix.&amp;rdquo; Technically, it&amp;rsquo;s possible to create a &lt;a href=&#34;https://learn.microsoft.com/ko-kr/windows/win32/memory/creating-guard-pages&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Guard Page&lt;/a&gt; for protection, but considering the overhead and the fact that most Python programs don&amp;rsquo;t use such deep recursion, it hasn&amp;rsquo;t been implemented.&lt;/p&gt;
 &lt;h3&gt;This Bug Does Not Occur on Linux&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;this-bug-does-not-occur-on-linux&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#this-bug-does-not-occur-on-linux&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/python-recursion-bug-3.png&#34; title=&#34;This code, which doesn&amp;#39;t work on Windows, runs in under 0.01 seconds on Linux. Screenshot from Amazon EC2 Linux.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/python-recursion-bug-3.png&#34; title=&#34;This code, which doesn&amp;#39;t work on Windows, runs in under 0.01 seconds on Linux. Screenshot from Amazon EC2 Linux.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;This code, which doesn&amp;#39;t work on Windows, runs in under 0.01 seconds on Linux. Screenshot from Amazon EC2 Linux.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;On Linux, this bug does not occur. Even with &lt;code&gt;setrecursionlimit&lt;/code&gt; set to an extremely high value (e.g., 2.1 billion), the code runs fine. This is because Linux and Windows handle process stack size limits differently.&lt;/p&gt;
@@ -111,10 +111,10 @@
     
     <item>
       <title>In Python 2, input() is eval(raw_input())</title>
-      <link>/en/python2-input-eval/</link>
+      <link>//localhost:1313/en/python2-input-eval/</link>
       <pubDate>Sun, 06 Oct 2024 22:43:58 +0900</pubDate>
       
-      <guid>/en/python2-input-eval/</guid>
+      <guid>//localhost:1313/en/python2-input-eval/</guid>
       <description>
         
         
@@ -336,17 +336,17 @@
     
     <item>
       <title>A Haunted Story While Developing with FastAPI (feat. VSCode)</title>
-      <link>/en/fastapi-spooky-story/</link>
+      <link>//localhost:1313/en/fastapi-spooky-story/</link>
       <pubDate>Fri, 04 Oct 2024 23:17:03 +0900</pubDate>
       
-      <guid>/en/fastapi-spooky-story/</guid>
+      <guid>//localhost:1313/en/fastapi-spooky-story/</guid>
       <description>
         
         
         &lt;h2&gt;The Experience While Developing with FastAPI&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;the-experience-while-developing-with-fastapi&#34;&gt;&lt;/span&gt;
     &lt;a href=&#34;#the-experience-while-developing-with-fastapi&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;While developing a &lt;a href=&#34;../../project/easyplotlib&#34; &gt;new web project&lt;/a&gt; using FastAPI, I encountered a mysterious incident. (Spoiler: There were no ghosts.) For this project, I planned to use AWS for production, so I had already set up my development environment on AWS EC2. Although I had done several Python projects before, this was my first time using FastAPI, so I was trying to understand the basics with a simple &lt;a href=&#34;https://fastapi.tiangolo.com/ko/#_5&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;demo code&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/fastapi-spooky-story-1.png&#34; title=&#34;Development screen at the time&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/fastapi-spooky-story-1.png&#34; title=&#34;Development screen at the time&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;Development screen at the time&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;The environment I was developing in looked like the screen above. I installed the Remote-SSH extension in Visual Studio Code to connect to the EC2 Instance remotely. Although the screenshot is small and hard to see, you can tell that the AWS EC2 was assigned the Public IP &lt;code&gt;172.31.3.163&lt;/code&gt;.&lt;/p&gt;
@@ -375,7 +375,7 @@
 &lt;/div&gt;
 &lt;p&gt;The point to note here is that the FastAPI server is open at &lt;code&gt;http://127.0.0.1:8000&lt;/code&gt;. The EC2 security group policy had already opened port 8000 at the time.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/fastapi-spooky-story-2.png&#34; title=&#34;AWS security group setting, port 8000 is open to all IPs.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/fastapi-spooky-story-2.png&#34; title=&#34;AWS security group setting, port 8000 is open to all IPs.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;AWS security group setting, port 8000 is open to all IPs.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;So, I thought, since the Public IP is &lt;code&gt;172.31.3.163&lt;/code&gt; and port 8000 is open, I should be able to access the test server from my browser at &lt;code&gt;http://172.31.3.163:8000&lt;/code&gt;.&lt;/p&gt;
@@ -383,7 +383,7 @@
     &lt;a href=&#34;#the-haunted-computer&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;But something unexpected happened. &lt;code&gt;http://172.31.3.163:8000&lt;/code&gt; timed out and could not be accessed. Wondering if the VPC settings were wrong, or if the subnet I created for the new project was misconfigured, or if the routing table was broken, I checked everything.&lt;/p&gt;
 &lt;p&gt;After checking everything and still not finding the problem, I tried accessing &lt;code&gt;http://127.0.0.1:8000&lt;/code&gt; just in case&amp;hellip;&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/fastapi-spooky-story-3.png&#34; title=&#34;Without any configuration, I can connect to the remote PC from my own computer?&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/fastapi-spooky-story-3.png&#34; title=&#34;Without any configuration, I can connect to the remote PC from my own computer?&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;Without any configuration, I can connect to the remote PC from my own computer?&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;This is where things got weird. All I set up was SSH, not a VPN, so why was localhost connecting to the EC2 instance? I started Googling with all sorts of thoughts in mind, but there were so many related topics that even coming up with search keywords was difficult. Summing up the situation at the time:&lt;/p&gt;
@@ -415,7 +415,7 @@ While looking through the FastAPI documentation, I found that FastAPI&amp;rsquo;
 &lt;/ul&gt;
 &lt;p&gt;After learning this, I checked VSCode again and found the following tab.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/fastapi-spooky-story-4.png&#34; title=&#34;Remote port 8000 is being forwarded to localhost:8000.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/fastapi-spooky-story-4.png&#34; title=&#34;Remote port 8000 is being forwarded to localhost:8000.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;Remote port 8000 is being forwarded to localhost:8000.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;Actually, this problem was a combination of two issues. Remember, not only was it strange that I could connect via localhost, but I also couldn&amp;rsquo;t connect via Public IP? To allow connections via Public IP in the FastAPI dev server, you actually need to add the following option:&lt;/p&gt;

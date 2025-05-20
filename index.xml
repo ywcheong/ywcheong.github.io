@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ywcheong::blog – ywcheong::blog</title>
-    <link>/</link>
+    <link>//localhost:1313/</link>
     <description>Recent content on ywcheong::blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko</language>
     
-	  <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="//localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -15,10 +15,10 @@
     
     <item>
       <title>sys.setrecursionlimit(10**6)은 만능 해결사가 아니다</title>
-      <link>/python-recursion-bug/</link>
+      <link>//localhost:1313/python-recursion-bug/</link>
       <pubDate>Thu, 31 Oct 2024 20:19:49 +0900</pubDate>
       
-      <guid>/python-recursion-bug/</guid>
+      <guid>//localhost:1313/python-recursion-bug/</guid>
       <description>
         
         
@@ -35,12 +35,12 @@ Python에서 시간제한이 빡빡하게 설정되어 있던 문제라 시간 �
 &lt;p&gt;원래의 문제를 간단히 설명하면 n개의 행렬을 곱하는 가장 효율적인 문제였는데, 이때 n이 500 이하였다.
 이때 문득 n이 더 크면 어떨지 궁금해져서 테스트케이스를 n = 5000짜리로 생성해서 집어넣게 되었다.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/python-recursion-bug-1.png&#34; title=&#34;matrix_size = 5000이다.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/python-recursion-bug-1.png&#34; title=&#34;matrix_size = 5000이다.&#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;matrix_size = 5000이다.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;그랬더니 놀랍게도 프로그램은 즉시 실행을 종료했고, 어떠한 출력도 내뱉지 않았다.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/python-recursion-bug-2.png&#34; title=&#34;당시 상황 재연. 프로그램의 출력이 없다. 화면에는 나타나지 않았지만 &#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/python-recursion-bug-2.png&#34; title=&#34;당시 상황 재연. 프로그램의 출력이 없다. 화면에는 나타나지 않았지만 &#34; alt=&#34;alt text&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;당시 상황 재연. 프로그램의 출력이 없다. 화면에는 나타나지 않았지만 &lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;Python에서 PS를 하다 보면 흔한 오류인 RecursionError도 아니었다.
@@ -132,10 +132,10 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
     
     <item>
       <title>Python 2에서 input()은 eval(raw_input())이다</title>
-      <link>/python2-input-eval/</link>
+      <link>//localhost:1313/python2-input-eval/</link>
       <pubDate>Sun, 06 Oct 2024 22:43:58 +0900</pubDate>
       
-      <guid>/python2-input-eval/</guid>
+      <guid>//localhost:1313/python2-input-eval/</guid>
       <description>
         
         
@@ -357,10 +357,10 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
     
     <item>
       <title>FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)</title>
-      <link>/fastapi-spooky-story/</link>
+      <link>//localhost:1313/fastapi-spooky-story/</link>
       <pubDate>Fri, 04 Oct 2024 23:17:03 +0900</pubDate>
       
-      <guid>/fastapi-spooky-story/</guid>
+      <guid>//localhost:1313/fastapi-spooky-story/</guid>
       <description>
         
         
@@ -369,7 +369,7 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
 이번 프로젝트에서는 AWS를 사용해 프로덕션을 개발할 생각이었기에, 개발 환경은 AWS EC2로 세팅을 마쳤었다.
 Python 프로젝트는 여러 번 해 봤지만 FastAPI를 활용하는 경우는 처음이어서 간단한 &lt;a href=&#34;https://fastapi.tiangolo.com/ko/#_5&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;데모 코드&lt;/a&gt;를 가지고 원리를 이해하고 있었다.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/fastapi-spooky-story-1.png&#34; title=&#34;당시 개발 화면&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/fastapi-spooky-story-1.png&#34; title=&#34;당시 개발 화면&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;당시 개발 화면&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;당시 개발 중이던 환경은 위 화면과 같았는데, Visual Studio Code에 Remote-SSH 익스텐션을 설치해서 원격으로 EC2 Instance에 접속하였었다.
@@ -400,7 +400,7 @@ Python 프로젝트는 여러 번 해 봤지만 FastAPI를 활용하는 경우�
 &lt;p&gt;여기서 주목할 점은 FastAPI 서버가 &lt;code&gt;http://127.0.0.1:8000&lt;/code&gt;에 개방되었다는 정보이다.
 EC2 보안그룹 정책을 통해 당시 8000번 포트는 접속을 개방한 상태였다.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/fastapi-spooky-story-2.png&#34; title=&#34;AWS 보안그룹 설정, 8000번 포트가 모든 IP에 대해 개방되어 있다.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/fastapi-spooky-story-2.png&#34; title=&#34;AWS 보안그룹 설정, 8000번 포트가 모든 IP에 대해 개방되어 있다.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;AWS 보안그룹 설정, 8000번 포트가 모든 IP에 대해 개방되어 있다.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;따라서 내 생각으로는 Public IP가 &lt;code&gt;172.31.3.163&lt;/code&gt;이고, 8000번 포트가 개방되었으니 내 브라우저에서 &lt;code&gt;http://172.31.3.163:8000&lt;/code&gt;으로 접근하면 테스트 서버에 접속할 수 있겠다는 판단이었다.&lt;/p&gt;
@@ -409,7 +409,7 @@ EC2 보안그룹 정책을 통해 당시 8000번 포트는 접속을 개방한 �
 왜 이러나 싶어서 VPC 설정이 잘못된 건지, 새 프로젝트를 시작하면서 새로 만든 서브넷의 설정이 망가진 건지, 라우팅 테이블은 멀쩡한지 다 뒤져봤다.&lt;/p&gt;
 &lt;p&gt;아무리 찾아도 문제가 해결되지 않던 중, 혹시나 하는 생각에 &lt;code&gt;http://127.0.0.1:8000&lt;/code&gt;로 접속을 시도해 봤더니&amp;hellip;&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/fastapi-spooky-story-3.png&#34; title=&#34;아무 설정도 안 했는데 내 컴퓨터에서 원격 PC에 접속이 된다?&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/fastapi-spooky-story-3.png&#34; title=&#34;아무 설정도 안 했는데 내 컴퓨터에서 원격 PC에 접속이 된다?&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;아무 설정도 안 했는데 내 컴퓨터에서 원격 PC에 접속이 된다?&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;여기서부터 뭔가 이상해졌다. 내가 설정한 건 SSH지 VPN이 아니었는데, 왜 localhost에서 EC2 인스턴스랑 연결이 되는 거지?
@@ -456,7 +456,7 @@ Vscode에서 SSH로 접속할 때는 그냥 접속하지 않고 &lt;a href=&#34;
 &lt;/ul&gt;
 &lt;p&gt;실제로 이 사실을 알고 다시 Vscode를 확인해 보니 아래와 같은 탭을 발견할 수 있었다.&lt;/p&gt;
 &lt;p&gt;&lt;figure&gt;
-    &lt;img src=&#34;/fastapi-spooky-story-4.png&#34; title=&#34;Remote 8000번 포트가 localhost:8000로 Forward되고 있다.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;img src=&#34;//localhost:1313/fastapi-spooky-story-4.png&#34; title=&#34;Remote 8000번 포트가 localhost:8000로 Forward되고 있다.&#34; alt=&#34;&#34;  loading=&#34;lazy&#34; /&gt;
     &lt;figcaption&gt;Remote 8000번 포트가 localhost:8000로 Forward되고 있다.&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;사실, 이 문제는 두 가지 문제가 결합한 문제였다. localhost에서 접속이 되는 것도 문제지만, Public IP를 통해서는 접속할 수 없었던 것을 기억하는가?

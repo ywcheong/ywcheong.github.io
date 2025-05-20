@@ -2,80 +2,80 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/en/python-recursion-bug/</loc>
+    <loc>//localhost:1313/en/python-recursion-bug/</loc>
     <lastmod>2025-05-20T16:19:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ko"
-                href="/python-recursion-bug/"
+                href="//localhost:1313/python-recursion-bug/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/python-recursion-bug/"
+                href="//localhost:1313/en/python-recursion-bug/"
                 />
   </url><url>
-    <loc>/en/python2-input-eval/</loc>
+    <loc>//localhost:1313/en/python2-input-eval/</loc>
     <lastmod>2025-05-20T16:19:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ko"
-                href="/python2-input-eval/"
+                href="//localhost:1313/python2-input-eval/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/python2-input-eval/"
+                href="//localhost:1313/en/python2-input-eval/"
                 />
   </url><url>
-    <loc>/en/fastapi-spooky-story/</loc>
+    <loc>//localhost:1313/en/fastapi-spooky-story/</loc>
     <lastmod>2025-05-20T16:19:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ko"
-                href="/fastapi-spooky-story/"
+                href="//localhost:1313/fastapi-spooky-story/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/fastapi-spooky-story/"
+                href="//localhost:1313/en/fastapi-spooky-story/"
                 />
   </url><url>
-    <loc>/en/categories/</loc>
+    <loc>//localhost:1313/en/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ko"
-                href="/categories/"
+                href="//localhost:1313/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/categories/"
+                href="//localhost:1313/en/categories/"
                 />
   </url><url>
-    <loc>/en/tags/</loc>
+    <loc>//localhost:1313/en/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ko"
-                href="/tags/"
+                href="//localhost:1313/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/tags/"
+                href="//localhost:1313/en/tags/"
                 />
   </url><url>
-    <loc>/en/</loc>
+    <loc>//localhost:1313/en/</loc>
     <lastmod>2025-05-20T16:19:30+09:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ko"
-                href="/"
+                href="//localhost:1313/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/en/"
+                href="//localhost:1313/en/"
                 />
   </url>
 </urlset>
