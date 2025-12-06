@@ -2,6 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/en/java-web-history/</loc>
+    <lastmod>2025-12-06T14:24:20+09:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ko"
+                href="/java-web-history/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/en/java-web-history/"
+                />
+  </url><url>
     <loc>/en/python-recursion-bug/</loc>
     <lastmod>2025-05-20T16:19:30+09:00</lastmod>
     <xhtml:link
