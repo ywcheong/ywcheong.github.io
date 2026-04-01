@@ -23,13 +23,13 @@ Understanding Technical Books Published 10 Years Ago
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/en/java-web-history/" /><meta property="article:section" content="" />
 <meta property="article:published_time" content="2025-12-06T14:24:20+09:00" />
-<meta property="article:modified_time" content="2025-12-06T14:24:20+09:00" />
+<meta property="article:modified_time" content="2025-12-06T18:39:19+09:00" />
 
   <meta itemprop="name" content="History of Java Web Technology: From Java EE to Spring Boot">
   <meta itemprop="description" content="This post explains the ywcheong/java-web-history mini-project.
 Understanding Technical Books Published 10 Years Ago Recently, I’ve been realizing the importance of reading a book more than ever. Of course, arguments like “you should look at the internet rather than books” or “book content becomes outdated quickly” have their merits. However, books provide not just the how-to of a technology, but the context of its birth. This deep context offers insights that are hard to gain simply by copy-pasting code or following tutorials.">
   <meta itemprop="datePublished" content="2025-12-06T14:24:20+09:00">
-  <meta itemprop="dateModified" content="2025-12-06T14:24:20+09:00">
+  <meta itemprop="dateModified" content="2025-12-06T18:39:19+09:00">
   <meta itemprop="wordCount" content="2831">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="History of Java Web Technology: From Java EE to Spring Boot">
@@ -464,7 +464,7 @@ The important point is that a servlet is not a huge application itself, but a sm
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Task</span><span class="p">();</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">task</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="n">title</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">em</span><span class="p">.</span><span class="na">persist</span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></div></div><div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div><div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
   <button
     class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
     title="Copy code"
@@ -493,16 +493,16 @@ The important point is that a servlet is not a huge application itself, but a sm
 <div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span><span class="w"> </span><span class="nn">ywcheong.spring7</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.catalina.Context</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.catalina.startup.Tomcat</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.context.support.XmlWebApplicationContext</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.servlet.DispatcherServlet</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.catalina.Context</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.catalina.startup.Tomcat</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.context.support.XmlWebApplicationContext</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.servlet.DispatcherServlet</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kn">import</span><span class="w"> </span><span class="nn">java.io.File</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kn">import</span><span class="w"> </span><span class="nn">java.io.File</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// 1. Tomcat Configuration - Excluded if external WAS is present</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&#34;server.port&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;8080&#34;</span><span class="p">);</span><span class="w">
@@ -532,7 +532,7 @@ The important point is that a servlet is not a huge application itself, but a sm
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">tomcat</span><span class="p">.</span><span class="na">start</span><span class="p">();</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">tomcat</span><span class="p">.</span><span class="na">getServer</span><span class="p">().</span><span class="na">await</span><span class="p">();</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></div></div><div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div></div><div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0">
   <button
     class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
     title="Copy code"
@@ -672,6 +672,6 @@ The important point is that a servlet is not a huge application itself, but a sm
     
     <script defer src="/js/main.min.9ae9a4bfebd06e106513f469234fd026fba3f24ca33a26385b84edd9d2a624a1.js" integrity="sha256-mumkv&#43;vQbhBlE/RpI0/QJvuj8kyjOiY4W4Tt2dKmJKE="></script>
 <script defer src="/js/flexsearch.433e941a8a573ebb9931fc16fc75266ab6b93f569ac2fb4f3dc66882e0416f4c.js" integrity="sha256-Qz6UGopXPruZMfwW/HUmara5P1aawvtPPcZoguBBb0w=" crossorigin="anonymous"></script>
-        <script defer src="/en.search.min.59d5cf1a3ac524c434127c0cd24e4320660879dd642ed497de1b12b894bc9dc0.js" integrity="sha256-WdXPGjrFJMQ0EnwM0k5DIGYIed1kLtSX3hsSuJS8ncA="></script>
+        <script defer src="/en.search.min.15fa4a9895429f8d2f525a063bd1d52498364b084ebddc6edea1e0f693583c9b.js" integrity="sha256-FfpKmJVCn40vUloGO9HVJJg2SwhOvdxu3qHg9pNYPJs="></script>
   </body>
 </html>

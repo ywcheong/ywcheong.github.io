@@ -5,6 +5,8 @@
     <description>Recent content on ywcheong::blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko</language>
+    <managingEditor>dev@ywcheong.com (ywcheong)</managingEditor>
+    <webMaster>dev@ywcheong.com (ywcheong)</webMaster>
     
 	  <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,10 +16,78 @@
     
     
     <item>
+      <title>Sofia 시스템 소개</title>
+      <link>/sofia-hello/</link>
+      <pubDate>Wed, 01 Apr 2026 12:27:23 +0900</pubDate>
+      <author>dev@ywcheong.com (ywcheong)</author>
+      <guid>/sofia-hello/</guid>
+      <description>
+        
+        
+        &lt;h3&gt;Sofia 시스템 - 배경설명&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;sofia-시스템---배경설명&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#sofia-%ec%8b%9c%ec%8a%a4%ed%85%9c---%eb%b0%b0%ea%b2%bd%ec%84%a4%eb%aa%85&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Sofia 시스템은 개발 시기에 따라 구버전과 신버전으로 나뉩니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sofia 구버전 (&lt;a href=&#34;https://github.com/ywcheong/sofia-the-chatbot&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;fullstack&lt;/a&gt;)은 2019년 말 기획되어 2020년 초 개발되었습니다. PHP, Bootstrap, jQuery를 활용해 개발되었습니다. 해당 버전은 cafe24 호스팅으로 시작해 한국과학영재학교 학생회 산하 정보부 서버로 이관되었습니다.&lt;/li&gt;
+&lt;li&gt;Sofia 신버전 (&lt;a href=&#34;https://github.com/ywcheong/sofia-frontend&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;frontend&lt;/a&gt;, &lt;a href=&#34;https://github.com/ywcheong/sofia-backend&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;backend&lt;/a&gt;)은 2026년 초 개발되었습니다. 구버전의 여러 문제점을 개선해 재작업했으며, 프론트엔드와 백엔드를 분리해 개발되었습니다. 프론트엔드는 React SPA, 백엔드는 Kotlin Spring Boot REST API입니다. 해당 버전은 AWS, Cloudflare 등에 배포되었습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Sofia 시스템 - 요구사항&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;sofia-시스템---요구사항&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#sofia-%ec%8b%9c%ec%8a%a4%ed%85%9c---%ec%9a%94%ea%b5%ac%ec%82%ac%ed%95%ad&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Sofia의 핵심 요구사항은 다음과 같습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;사용자&lt;/strong&gt;: 번역버디(사용자)와 번역버디장(관리자)이 있다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;업무&lt;/strong&gt;: 번역버디장은 번역버디에게 업무를 배정하고, 번역버디는 완료된 업무를 보고한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;여기에 더해, 핵심 요구사항을 매끄럽게 제공하기 위한 보조 요구사항은 다음과 같습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;기간&lt;/strong&gt;: 관리자는 번역버디 운영을 학기 단위로 관리하기 위해, 모집/번역/정산 기간을 분리한다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;가입&lt;/strong&gt;: 사용자는 관리자에게 신청하고, 이를 관리자가 승인함으로써 번역버디가 된다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;용어&lt;/strong&gt;: 관리자는 번역 용어 통일을 위해 번역 가이드라인을 관리한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Sofia 시스템 - 인터페이스&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;sofia-시스템---인터페이스&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#sofia-%ec%8b%9c%ec%8a%a4%ed%85%9c---%ec%9d%b8%ed%84%b0%ed%8e%98%ec%9d%b4%ec%8a%a4&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Sofia 시스템은 두 개의 인터페이스로 이루어져 있습니다. 이처럼 인터페이스를 분리한 이유는 사용자마다 적합한 방식이 달랐기 때문입니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;카카오 인터페이스&lt;/strong&gt;는 번역버디가 사용합니다.
+&lt;ul&gt;
+&lt;li&gt;2019년 번역버디 업무 프로세스는 카카오톡을 통한 번역버디장의 업무배정 알림 - 카카오톡을 통한 번역버디의 보고로 이루어졌습니다.&lt;/li&gt;
+&lt;li&gt;카카오 인터페이스는 해당 업무의 경험을 그대로 유지하는 데 적합한 방식이었습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;웹 인터페이스&lt;/strong&gt;는 번역버디장이 사용합니다.
+&lt;ul&gt;
+&lt;li&gt;카카오톡은 접근성이 높고 사용이 간편하지만 세밀한 제어를 하거나, 대량의 데이터를 조회하는 번역버디장 업무에는 부적합합니다.&lt;/li&gt;
+&lt;li&gt;카카오톡 응답 길이 제한이 있고, 채팅 말풍선에 원시 텍스트 데이터를 꽉 채워서 돌려주는 방식은 부정적인 UX를 줄 수 있기 때문입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/sofia-hello-kakao.png&#34; title=&#34;Sofia 카카오 인터페이스 (편집 화면, 카카오톡 채널 관리자센터 캡처)&#34; alt=&#34;Sofia 카카오 인터페이스 (카카오톡 채널 관리자센터 캡처)&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;Sofia 카카오 인터페이스 (편집 화면, 카카오톡 채널 관리자센터 캡처)&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;첫 번째 인터페이스는 &lt;strong&gt;카카오 인터페이스&lt;/strong&gt;입니다. 카카오톡은 채널(구 플러스친구)에서 사용자가 메시지를 보낼 때, 응답 방식을 정의할 수 있는 기능을 지원하며, 크게 두 가지 방식을 사용할 수 있습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;WYSIWYG 에디터를 사용해 정적인 응답 반환&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kakaobusiness.gitbook.io/main/tool/chatbot/skill_guide/make_skill&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;스킬 서버&lt;/a&gt;를 연동해 동적인 응답 생성&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;특히 스킬 서버는 HTTP 서버의 일종으로, 카카오에서 정의한 &lt;a href=&#34;https://kakaobusiness.gitbook.io/main/tool/chatbot/skill_guide/answer_json_format#skillpayload&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;스킬 요청&lt;/a&gt;을 받아 &lt;a href=&#34;https://kakaobusiness.gitbook.io/main/tool/chatbot/skill_guide/answer_json_format&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;스킬 응답&lt;/a&gt;을 반환할 수 있기만 하면 서버의 구현은 무관합니다. Sofia는 정적인 응답이 가능한 홈 화면에는 에디터를 활용하고, 동적인 응답이 필요한 가입, 조회 등 로직에서는 스킬 방식을 활용해 두 방식 모두를 사용했습니다. 카카오 인터페이스는 서버와 결합도가 매우 낮았기 때문에 Sofia 구버전에서 신버전으로 재개발하는 과정에서도 거의 바뀌지 않았습니다.&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/sofia-hello-web-old.png&#34; title=&#34;Sofia 웹 인터페이스 (구버전)&#34; alt=&#34;Sofia 웹 인터페이스&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;Sofia 웹 인터페이스 (구버전)&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure&gt;
+    &lt;img src=&#34;/sofia-hello-web-new.png&#34; title=&#34;Sofia 웹 인터페이스 (신버전)&#34; alt=&#34;Sofia 신버전 웹 인터페이스&#34;  loading=&#34;lazy&#34; /&gt;
+    &lt;figcaption&gt;Sofia 웹 인터페이스 (신버전)&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;두 번째 인터페이스는 &lt;strong&gt;웹 인터페이스&lt;/strong&gt;입니다. 전형적인 웹 대시보드로, 여러 관리 기능을 지원합니다. Sofia 구버전에서는 Bootstrap과 jQuery를 혼합해 구현되었습니다. 구버전의 웹 인터페이스는 PHP 코드에 섞여서 구현되어 있었고, MVC 등 아키텍처가 전혀 적용되지 않아 서버와 결합도가 엄청나게 높았습니다. 때문에 Sofia 신버전으로 재개발하는 과정에서 React SPA로 처음부터 완전히 재개발했습니다.&lt;/p&gt;
+&lt;p&gt;Sofia 구버전에서는 카카오 스킬 요청과 웹 요청은 같은 서버에서 모두 처리되었습니다. 카카오 스킬 요청은 &lt;code&gt;/action.php&lt;/code&gt;에서, 웹 요청은 &lt;code&gt;/web/adm/*.php&lt;/code&gt;에서 처리되었습니다. 웹 요청의 경우 프론트엔드 로직도 PHP 서버에서 구현되었습니다.&lt;/p&gt;
+&lt;p&gt;Sofia 신버전에서도 카카오 인터페이스와 웹 인터페이스는 같은 서버를 공유하지만, 구버전과 달리 신버전에서는 백엔드 서버가 View를 담당하지 않고 REST API로서만 기능한다는 것이 차이점입니다. 신버전 서버는 카카오 스킬 요청에 특화되어 단일 엔드포인트로 처리하는 &lt;code&gt;/api/kakao/skill&lt;/code&gt; 엔드포인트와, 웹 인터페이스에 기능을 제공하는 기타 엔드포인트로 분리되어 있습니다.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Java 웹 기술의 변화 히스토리: Java EE부터 Spring Boot까지</title>
       <link>/java-web-history/</link>
       <pubDate>Sat, 06 Dec 2025 14:24:20 +0900</pubDate>
-      
+      <author>dev@ywcheong.com (ywcheong)</author>
       <guid>/java-web-history/</guid>
       <description>
         
@@ -144,7 +214,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Task&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;task&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Task&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;task&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setTitle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;em&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;persist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;task&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
   &lt;button
     class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
     title=&#34;코드 복사&#34;
@@ -172,14 +242,14 @@
 
 &lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;package&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;ywcheong.spring7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;org.apache.catalina.Context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;org.apache.catalina.startup.Tomcat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;org.springframework.web.context.support.XmlWebApplicationContext&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;org.springframework.web.servlet.DispatcherServlet&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;org.apache.catalina.Context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;org.apache.catalina.startup.Tomcat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;org.springframework.web.context.support.XmlWebApplicationContext&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;org.springframework.web.servlet.DispatcherServlet&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;java.io.File&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nn&#34;&gt;java.io.File&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Main&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Main&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;throws&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Exception&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 1. Tomcat 설정 - 외장WAS 있을 경우 제외&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getProperty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;server.port&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;8080&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
@@ -205,7 +275,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tomcat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tomcat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getServer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;await&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
   &lt;button
     class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
     title=&#34;코드 복사&#34;
@@ -292,7 +362,7 @@
       <title>sys.setrecursionlimit(10**6)은 만능 해결사가 아니다</title>
       <link>/python-recursion-bug/</link>
       <pubDate>Thu, 31 Oct 2024 20:19:49 +0900</pubDate>
-      
+      <author>dev@ywcheong.com (ywcheong)</author>
       <guid>/python-recursion-bug/</guid>
       <description>
         
@@ -408,7 +478,7 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
       <title>Python 2에서 input()은 eval(raw_input())이다</title>
       <link>/python2-input-eval/</link>
       <pubDate>Sun, 06 Oct 2024 22:43:58 +0900</pubDate>
-      
+      <author>dev@ywcheong.com (ywcheong)</author>
       <guid>/python2-input-eval/</guid>
       <description>
         
@@ -633,7 +703,7 @@ C나 C++은 꼬리 재귀 최적화를 지원하지만 Python은 그렇지 않�
       <title>FastAPI 개발 중에 귀신들린 이야기 (feat. VSCode)</title>
       <link>/fastapi-spooky-story/</link>
       <pubDate>Fri, 04 Oct 2024 23:17:03 +0900</pubDate>
-      
+      <author>dev@ywcheong.com (ywcheong)</author>
       <guid>/fastapi-spooky-story/</guid>
       <description>
         
